@@ -1,35 +1,42 @@
 {% extends 'notes/base.html' %}
-
+{% load static %}
 {% block content %}
-<h1>🧑 Register User</h1>
-<div>
-	
-	<form method="post">
-		{% csrf_token %}
-		<div>
-			<label for="">Username</label>
-			<div>
-				{{ form.username }}
+
+<link rel="stylesheet" type="text/css" href="{% static 'users/forms.css' %}">
+
+<div class="form-container" method="post" onsubmit ="return verifyPassword()">
+	<img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="">
+	<p class="form-title">Sign Up to ColorNotes</p>
+	<form>
+	 <!-- {% csrf_token %} -->
+		<div class="form-group">
+			<label>Username</label>
+			<div class="box-icon-input">
+				<i class="material-icons">&#xe7fd;</i>
+				<input type="text" name="username" placeholder="Username" maxlength=20 required>
 			</div>
-		</div>
 
-		<div>	
-			<label for="">Password</label>
-			<div>
-				{{ form.password1 }}
+			<label>Password</label>
+			<div class="box-icon-input">
+				<i class="material-icons">&#xe897;</i>
+				<input id="pass1" type="password" name="password1" placeholder="Password" minlength="4" maxlength=20 required>
 			</div>
-		</div>
 
-		<div>
-			<label for="">Confirm Password</label>
-			<div>
-				{{ form.password2 }}
+			<label>Confirm Password</label>
+			<div class="box-icon-input">
+				<i class="material-icons">&#xe897;</i>
+				<input id="pass2" type="password" name="password2" placeholder="Confirm Password" minlength="4" maxlength=20 required oninput="setCustomValidity('');">
 			</div>
+
 		</div>
-
-		<button type="submit">Register</button>
-
+		<button class="btn-submit" type="submit">Log in</button>
 	</form>
 
+	<div class="form-footer">
+		<p>Already have an account? <a href="{% url 'users:login' %}">Login Here</a></p>
+	</div>
 </div>
+
+</div>
+</body>
 {% endblock %}

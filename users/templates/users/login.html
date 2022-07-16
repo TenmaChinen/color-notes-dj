@@ -1,28 +1,33 @@
 {% extends 'notes/base.html' %}
+{% load static %}
 {% block content %}
-<h1>🧑 Login User</h1>
-<div>
-	
-	<form method="post">
+
+<link rel="stylesheet" type="text/css" href="{% static 'users/forms.css' %}">
+
+<div class="form-container" method="post">
+	<img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="">
+	<p class="form-title">Sign in to ColorNotes</p>
+	<form>
 		{% csrf_token %}
-		<div>
-			<label for="">Username</label>
-			<div>
-				{{ form.username }}
+		<div class="form-group">
+			<label>Username</label>
+			<div class="box-icon-input">
+				<i class="material-icons">&#xe7fd;</i>
+				<input type="text" name="username" placeholder="Username" maxlength=20 required>
+			</div>
+
+			<label>Password</label>
+			<div class="box-icon-input">
+				<i class="material-icons">&#xe897;</i>
+				<input type="password" name="password" placeholder="Password" minlength=8 maxlength=20 required>
 			</div>
 		</div>
-
-		<div>
-			<label for="">Password</label>
-			<div>
-				{{ form.password }}
-			</div>
-		</div>
-
-		<button type="submit">Login</button>
-
+		<button class="btn-submit" type="submit">Log in</button>
 	</form>
 
-	<div>Do not have an account?<a href="{% url 'users:register' %}">Register</a></div>
+	<div class="form-footer">
+		<p>New to ColorNotes? <a href="{% url 'users:register' %}">Sign up</a></p>
+	</div>
 </div>
+
 {% endblock %}

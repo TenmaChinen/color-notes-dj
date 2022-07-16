@@ -1,0 +1,147 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+:root{
+	--form-fg: #bc8a67;
+	--form-bg: #ffd8b9;
+	--placeholder-fg: #988e88;
+	--form-footer-bg: #f0b180;
+	--btn-bg:#edbc8d;
+	--btn-bg-hover:#e0b288;
+	--title-size:35px;
+	--label-size:18px;
+	--input-size:20px;
+	--icon-size: 30px;
+	--btn-submit-size: 26px;
+	--txt-footer: 20px;
+}	
+
+
+.form-container{
+	color: var(--form-fg);
+	font-weight: bold;
+	align-self: center;
+	border-radius: 10px;
+	background-color: var(--form-bg);
+	width: 500px;
+	margin-top: 50px;
+}
+
+.form-container form{
+	margin: 30px;
+}
+
+.form-logo{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+	border-radius: 100px;
+	width: 100px;
+	height: 100px;
+}
+
+.form-title{
+	font-size: var(--title-size);
+	text-align: center;
+	margin-top: 20px;
+	color: var(--title-fg);
+}
+
+.form-group{
+	margin-bottom: 30px;
+	margin-top: 30px;
+}
+
+.form-group label{
+	font-size:var(--label-size);
+	display:inline-block;
+	margin-bottom: 8px;
+	margin-top: 20px;
+}
+
+.form-group input{
+	font-size: var(--input-size);
+}
+
+input{
+	border-style: none;
+	background: none;
+	color: var(--form-fg);
+	font-weight: bold;
+	padding: 5px;
+}
+
+input::placeholder{
+	color: var(--placeholder-fg);
+}
+
+input:focus{
+	background: none;
+	width: 100%;
+	outline: none;
+}
+
+.box-icon-input{
+	display: flex;
+	border: 1px solid var(--form-fg);
+	border-radius: 10px;
+	width: 100%;
+	padding: 10px;
+	box-sizing: border-box;
+}
+
+.box-icon-input i{
+	font-size: var(--icon-size) ;
+	margin: 0px 20px 0px 5px;
+	padding-right: 10px;
+	color: var(--form-fg);
+	border-right: 2px solid var(--form-fg);
+}
+
+
+.btn-submit{
+	font-size: var(--btn-submit-size);
+	font-weight: bold;
+	color: var(--form-fg);
+	border-style: none;
+	background-color: var(--btn-bg);
+	border-radius: 8px;
+	padding: 10px;
+	width: 100%;
+}
+
+.btn-submit:hover{
+	background-color: var(--btn-bg-hover);
+}
+
+
+input:-webkit-autofill{
+  -webkit-text-fill-color: white;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input::-ms-reveal {
+  filter: invert(50%);
+}
+
+
+.form-footer{
+	background: var(--form-footer-bg);
+	padding: 30px 0px;
+	font-size: var(--txt-footer);
+	text-align: center;
+	border-top: 1px solid #9A9A9A;
+	border-radius: 0px 0px 10px 10px;
+}
+
+.form-footer p{
+	color: var(--form-fg);
+}
+
+.form-footer a{
+	color: white;
+	text-decoration-line: none;
+}

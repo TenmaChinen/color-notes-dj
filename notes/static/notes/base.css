@@ -1,6 +1,7 @@
 :root{
   --bg:white;
   --navbar-height:50px;
+  --navar-bg:#ff9646;
 }
 
 
@@ -33,7 +34,7 @@ a:hover{
   /* General Styles */
   
 nav{
-  background-color: #ff9646;
+  background-color: var(--navar-bg);
   color: white;
   box-shadow: 0px 2px 10px #4141415b;
   padding: 0px 20px;
@@ -69,6 +70,8 @@ nav a{
 }
 
 
-.mainContainer{
+.main-container{
   height: calc(100% - var(--navbar-height));
+  display: flex;
+  flex-direction: column;
 }
