@@ -1,0 +1,35 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+<h1>🧑 Register User</h1>
+<div>
+	
+	<form method="post">
+		{% csrf_token %}
+		<div>
+			<label for="">Username</label>
+			<div>
+				{{ form.username }}
+			</div>
+		</div>
+
+		<div>	
+			<label for="">Password</label>
+			<div>
+				{{ form.password1 }}
+			</div>
+		</div>
+
+		<div>
+			<label for="">Confirm Password</label>
+			<div>
+				{{ form.password2 }}
+			</div>
+		</div>
+
+		<button type="submit">Register</button>
+
+	</form>
+
+</div>
+{% endblock %}

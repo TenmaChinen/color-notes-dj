@@ -1,0 +1,66 @@
+{% extends 'notes/base.html' %}
+
+{% block content %}
+
+<div class="notes-container">
+  <h1>NOTES PAGE</h1>
+  {% for note in notes %}
+    <form id="{{note.id}}" method="post">
+      {% csrf_token %}
+      <div class="card">
+        
+        <div class="title-box">
+          <!-- <input name = "title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" readonly></input> -->
+          <input name = "title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('{{note.id}}')"></input>
+        </div>
+        
+        <div class="text-box">
+          <div class="scroll-box">
+            <span type="text" class="textarea" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('{{note.id}}')">{{note.text}}</span>
+          </div>
+        </div>
+
+        <div class="toolbox">
+          <div role="button"><i class="material-icons">palette</i></div>
+          <div role="button"><i class="material-icons">delete</i></div>
+        </div>
+        
+      </div>
+    </form>
+  {% endfor %}
+</div>
+
+<script>
+  let timer = 0
+  function delayTrigger(formId){
+    clearTimeout(timer);
+    timer = setTimeout(saveForm,1000,formId);
+  }
+
+  function saveForm(formId){
+    console.log(`Form : ${formId} | {{ request.get_full_path }}`);
+    // document.getElementById(formId).submit();
+    
+    let noteForm = document.getElementById(formId);
+    let noteTitle = noteForm["title"].value;
+    let noteText = noteForm.getElementsByTagName("span")[0].textContent;
+
+    var csrftoken = '{{ csrf_token }}';
+    const xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "{{ request.get_full_path }}", true);
+    xhttp.setRequestHeader("X-CSRFToken",csrftoken ); 
+    // xhttp.setRequestHeader('Content-Type', "application/x-www-form-urlencoded");
+    // xhttp.setRequestHeader('Content-Type', "application/json");
+
+    // let params = JSON.stringify({"title" : "Hello World"});
+    let data = new FormData();
+    data.set("id",formId);
+    data.set("title",noteTitle);
+    data.set("text",noteText);
+    xhttp.send(data);
+  }
+
+
+</script>
+
+{% endblock %}
