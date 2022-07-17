@@ -127,7 +127,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # The url to redirec to when the login is successful
-LOGIN_REDIRECT_URL = 'notes:index'
+LOGIN_REDIRECT_URL = 'notes:notes'
+LOGIN_URL = 'users:login'
 
 # ADDED TO GET CSS STYLES AND RESOURCES FROM STATIC FOLDER
 MEDIA_ROOT = BASE_DIR / 'media'

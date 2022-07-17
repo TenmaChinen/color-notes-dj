@@ -2,10 +2,12 @@
   --bg:white;
   --navbar-height:50px;
   --navar-bg:#ff9646;
+  --options-size:20px;
+  --icon-size:25px;
 }
 
 
-/* General Styles */
+/* GENERAL STYLES */
 
 *{
   box-sizing: border-box;
@@ -25,14 +27,18 @@ a{
   text-decoration-line: none;
   font-weight: bold;
   color: white;
+  margin: 0;
+  padding: 0;
 }
 
 a:hover{
   color: rgba(255, 255, 255, 0.537);
 }
 
-  /* General Styles */
-  
+/* GENERAL STYLES */
+
+/* NAV BAR */
+
 nav{
   background-color: var(--navar-bg);
   color: white;
@@ -57,11 +63,15 @@ nav .container .options{
   align-items: center;
 	align-self: center;
   justify-content: center;
+  height: 100%;
 }
 
-nav a{
+nav .container .options a{
   padding: 3px 5px;
-  margin: 5px;
+  margin-left: 10px;
+  margin-right: 5px;
+  text-align: center;
+  font-size: var(--options-size);
 }
 
 .sign-up{
@@ -69,9 +79,28 @@ nav a{
   border-radius: 5px;
 }
 
+.username{
+  font-size: var(--options-size);
+  font-weight: bold;
+}
+
+.logout{
+  line-height: 0%;
+}
+
+nav .container .options i{
+  font-weight: bold;
+  font-size: var(--icon-size);
+}
+
+/* NAV BAR */
+
+/* MAIN CONTAINER */
 
 .main-container{
   height: calc(100% - var(--navbar-height));
   display: flex;
   flex-direction: column;
 }
+
+/* MAIN CONTAINER */

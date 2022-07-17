@@ -4,32 +4,33 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'users/forms.css' %}">
 
-<div class="form-container" method="post" onsubmit ="return verifyPassword()">
-	<img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="">
+<div class="form-container">
+	<a href="{% url 'notes:notes' %}"><img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="Logo"></a>
 	<p class="form-title">Sign Up to ColorNotes</p>
-	<form>
-	 <!-- {% csrf_token %} -->
+	<form method="post"  onsubmit ="return verifyPassword(event)">
+		{% csrf_token %}
 		<div class="form-group">
-			<label>Username</label>
+			<label for="username" value="username">Username</label>
 			<div class="box-icon-input">
 				<i class="material-icons">&#xe7fd;</i>
-				<input type="text" name="username" placeholder="Username" maxlength=20 required>
+				<input type="text" name="username" placeholder="Username" maxlength=20 required autofocus>
 			</div>
-
-			<label>Password</label>
+			
+			<label></label>
+			<label for="password1" value="password1">Password</label>
+				<div class="box-icon-input">
+					<i class="material-icons">&#xe897;</i>
+					<input id="pass1" type="password" name="password1" placeholder="Password" minlength="6" maxlength=20 required>
+				</div>
+				
+			<label for="password2" value="password2">Confirm Password</label>
 			<div class="box-icon-input">
 				<i class="material-icons">&#xe897;</i>
-				<input id="pass1" type="password" name="password1" placeholder="Password" minlength="4" maxlength=20 required>
-			</div>
-
-			<label>Confirm Password</label>
-			<div class="box-icon-input">
-				<i class="material-icons">&#xe897;</i>
-				<input id="pass2" type="password" name="password2" placeholder="Confirm Password" minlength="4" maxlength=20 required oninput="setCustomValidity('');">
+				<input id="pass2" type="password" name="password2" placeholder="Confirm Password" minlength="6" maxlength=20 required oninput="setCustomValidity('');">
 			</div>
 
 		</div>
-		<button class="btn-submit" type="submit">Log in</button>
+		<button class="btn-submit" type="submit">Create Account</button>
 	</form>
 
 	<div class="form-footer">
@@ -39,4 +40,21 @@
 
 </div>
 </body>
+
+<script type="text/javascript">
+	function verifyPassword(event){
+		let pass1 = document.getElementById("pass1");
+		let pass2 = document.getElementById("pass2");
+		if ( pass1.value === pass2.value ){
+      return true;
+    }else{
+			pass2.setCustomValidity("Password doesn't match!")
+      pass2.reportValidity();
+			event.preventDefault();
+      return false;
+    }
+	}
+
+</script>
+
 {% endblock %}

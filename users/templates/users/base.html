@@ -14,28 +14,11 @@
   
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
-  <link rel="stylesheet" type="text/css" href="{% static 'notes/base.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'notes/notes.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'users/base.css' %}">
 </head>
 
 <body>
-
-  <nav>
-    <div class="container">
-      <h1>COLOR NOTES</h1>
-      <div class="options">
-        {% if user.is_authenticated %}
-          <span class="username">{{user.username}}</span>
-          <a class="logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}"><i class="material-icons">&#xe9ba;</i></a>
-        {% else %}
-          <a href="{% url 'users:login' %}">LOGIN</a>
-          <a class="sign-up" href="{% url 'users:register' %}">SIGN UP</a>
-        {% endif %}
-      </div>
-
-    </div>
-  </nav>
-
+  
   <div class="main-container">
     {% block content %}
 

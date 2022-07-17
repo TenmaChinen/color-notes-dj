@@ -5,15 +5,15 @@
 <link rel="stylesheet" type="text/css" href="{% static 'users/forms.css' %}">
 
 <div class="form-container" method="post">
-	<img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="">
+	<a href="{% url 'notes:notes' %}"><img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="Logo"></a>
 	<p class="form-title">Sign in to ColorNotes</p>
-	<form>
+	<form method="post">
 		{% csrf_token %}
 		<div class="form-group">
 			<label>Username</label>
 			<div class="box-icon-input">
 				<i class="material-icons">&#xe7fd;</i>
-				<input type="text" name="username" placeholder="Username" maxlength=20 required>
+				<input type="text" name="username" placeholder="Username" maxlength=20 required autofocus>
 			</div>
 
 			<label>Password</label>

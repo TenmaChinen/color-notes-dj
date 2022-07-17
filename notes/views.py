@@ -16,6 +16,11 @@ def notes_view(request):
 
     return HttpResponse()
 
-  l_notes = NoteModel.objects.filter(user_obj=request.user)
-  context = { 'notes' : l_notes}
+  user = request.user
+  if not user.is_anonymous :
+    l_notes = NoteModel.objects.filter(user_obj=user)
+    context = { 'notes' : l_notes}
+  else:
+    context = {}
+  
   return render(request,'notes/notes.html',context)
