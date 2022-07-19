@@ -10,15 +10,23 @@ def index(request):
 def notes_view(request):
 	if request.method == 'POST' :
 		data = json.loads(request.body)
-		form_data = data['form']
+		
 		if data['action'] == 0:
-			return create_note(request.user,form_data)
+			note_data = data['note']
+			return create_note(request.user,note_data)
+
 		elif data['action'] == 1:
-			note_id = form_data['id']
+			note_data = data['note']
+			note_id = note_data['id']
 			note = NoteModel.objects.get(id=note_id)
-			note.title = form_data['title']
-			note.text = form_data['text']
+			note.title = note_data['title']
+			note.text = note_data['text']
 			note.save()
+		
+		elif data['action'] == 2:
+			note = NoteModel.objects.get(id=data['noteId'])
+			note.delete()
+			return JsonResponse({'isDeleted':True})
 
 		return HttpResponse()
 
@@ -32,9 +40,8 @@ def notes_view(request):
 	return render(request,'notes/notes.html',context)
 
 
-def create_note(user,form_data):
-		print(form_data)
-		new_note = NoteModel(user_obj = user, **form_data) 
+def create_note(user,note_data):
+		new_note = NoteModel(user_obj = user, **note_data) 
 		new_note.save()
 		return JsonResponse({'id':new_note.id})
-	
+

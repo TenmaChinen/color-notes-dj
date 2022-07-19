@@ -11,36 +11,31 @@
 
 <script src="{% static 'notes/js/notes.js' %}"></script>
 
-<div class="notes-container">
-  
-  <div class="card card-generator">  
-    <form id="form-creator" method="post">
-      <input id="form-input" name="title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onclick="openNoteCreator()">
-      <!-- <div id="text-box-generator" class="text-box" style="display: none;"> -->
-      <div id="text-box" class="text-box">
-        <div class="scroll-box">
-          <span id="form-input" type="text" class="textarea" name="text" role="textbox" contenteditable ></span>
-        </div>
+<div id="notes-container" class="notes-container">
+
+  <div id="new-note" class="card card-generator">  
+    <input class="input" name="title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onclick="openNoteCreator()">
+    <!-- <div id="text-box-generator" class="text-box" style="display: none;"> -->
+    <div class="text-box">
+      <div class="scroll-box">
+        <span class="input textarea" type="text" name="text" role="textbox" contenteditable ></span>
       </div>
-      <i class="material-icons btn-close" role="buttton">&#xe5cd</i>
+    </div>
+    <i class="material-icons btn-close" role="buttton">&#xe5cd</i>
     <div class="btn-save" role="button" onclick="saveNewNote()">SAVE</div>
-  </form>
-  
   </div>
 
-  {% for note in notes %}
-  <div class="card">
-    <form id="{{note.id}}" method="post">
-      <input id="form-input" name = "title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('{{note.id}}')"></input>
+  {% for note in notes reversed %}
+    <div id="{{note.id}}" class="card">
+      <input class="input" name = "title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('{{note.id}}')"></input>
       <div class="text-box">
         <div class="scroll-box">
-          <span id="form-input" type="text" class="textarea" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('{{note.id}}')">{{note.text}}</span>
+          <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('{{note.id}}')">{{note.text}}</span>
         </div>
       </div>
-      <i class="material-icons btn-close" role="button" >&#xe5cd</i>
+      <i class="material-icons btn-close" role="button" onclick="deleteNote('{{note.id}}')">&#xe5cd</i>
       <i class="material-icons btn-color" role="button">&#xe40a</i>
-    </form>
-  </div>
+    </div>
   {% endfor %}
 </div>
 
