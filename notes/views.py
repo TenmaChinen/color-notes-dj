@@ -8,29 +8,11 @@ def index(request):
 
 
 def notes_view(request):
+	user = request.user
+
 	if request.method == 'POST' :
 		data = json.loads(request.body)
 		
-		if data['action'] == 0:
-			note_data = data['note']
-			return create_note(request.user,note_data)
-
-		elif data['action'] == 1:
-			note_data = data['note']
-			note_id = note_data['id']
-			note = NoteModel.objects.get(id=note_id)
-			note.title = note_data['title']
-			note.text = note_data['text']
-			note.save()
-		
-		elif data['action'] == 2:
-			note = NoteModel.objects.get(id=data['noteId'])
-			note.delete()
-			return JsonResponse({'isDeleted':True})
-
-		return HttpResponse()
-
-	user = request.user
 	if not user.is_anonymous :
 		l_notes = NoteModel.objects.filter(user_obj=user)
 		context = { 'notes' : l_notes}
@@ -40,8 +22,37 @@ def notes_view(request):
 	return render(request,'notes/notes.html',context)
 
 
-def create_note(user,note_data):
+def create_note(request):
+	user = request.user
+	data = json.loads(request.body)
+	note_data = data['note']
+	if not user.is_anonymous :
 		new_note = NoteModel(user_obj = user, **note_data) 
 		new_note.save()
 		return JsonResponse({'id':new_note.id})
+		
+	if hasattr( user,'last_note_id' ):
+		user.last_note_id += 1
+	else:
+		user.last_note_id = 1
+		
+	return JsonResponse({'id':user.last_note_id})
 
+	
+def update_note(request,note_id):
+	
+	if request.method == 'POST' :
+		data = json.loads(request.body)
+		note_data = data['note']
+		note = NoteModel.objects.get(id=note_id)
+		note.title = note_data['title']
+		note.text = note_data['text']
+		note.save()
+
+	return HttpResponse()
+
+
+def delete_note(request,note_id):
+	note = NoteModel.objects.get(id=note_id)
+	note.delete()
+	return JsonResponse({'isDeleted':True})

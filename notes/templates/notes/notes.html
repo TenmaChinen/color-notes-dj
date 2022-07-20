@@ -4,16 +4,9 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notes.css' %}">
 
-<script>
-  const csrftoken = "{{ csrf_token }}";
-  const currentUrl = "{{ request.get_full_path }}";
-</script> 
-
-<script src="{% static 'notes/js/notes.js' %}"></script>
-
 <div id="notes-container" class="notes-container">
 
-  <div id="new-note" class="card card-generator">  
+  <div id="note-placeholder" class="card card-generator">  
     <input class="input" name="title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onclick="openNoteCreator()">
     <!-- <div id="text-box-generator" class="text-box" style="display: none;"> -->
     <div class="text-box">
@@ -21,8 +14,8 @@
         <span class="input textarea" type="text" name="text" role="textbox" contenteditable ></span>
       </div>
     </div>
-    <i class="material-icons btn-close" role="buttton">&#xe5cd</i>
-    <div class="btn-save" role="button" onclick="saveNewNote()">SAVE</div>
+    <i class="btn-close material-icons" role="buttton" onclick="closePH()">&#xe5cd</i>
+    <i class="btn-save material-icons" role="button" onclick="createNote()">&#xe145</i>
   </div>
 
   {% for note in notes reversed %}
@@ -32,11 +25,21 @@
         <div class="scroll-box">
           <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('{{note.id}}')">{{note.text}}</span>
         </div>
+        <div class="tools-box">
+          <i class="material-icons btn-color" role="button">&#xe40a</i>
+          <i class="material-icons btn-fontsize" role="button">&#xe262</i>
+        </div>
+        <i class="material-icons btn-close" role="button" onclick="deleteNote('{{note.id}}')">&#xe5cd</i>
       </div>
-      <i class="material-icons btn-close" role="button" onclick="deleteNote('{{note.id}}')">&#xe5cd</i>
-      <i class="material-icons btn-color" role="button">&#xe40a</i>
     </div>
   {% endfor %}
 </div>
+
+<script>
+  const csrftoken = "{{ csrf_token }}";
+  const currentUrl = "{{ request.get_full_path }}";
+</script> 
+
+<script src="{% static 'notes/js/notes.js' %}"></script>
 
 {% endblock %}

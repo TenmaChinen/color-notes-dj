@@ -10,6 +10,9 @@
   color: rgb(255, 255, 255);
   height: 100%;
   padding: 40px 30px 1000px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* NOTES CONTAINER */
@@ -17,17 +20,26 @@
 /* NOTE GENERATOR */
 
 .card-generator{
-  padding-bottom: 30px !important;
-  margin-bottom: 20px !important;
+  /* padding-bottom: 30px !important; */
+  /* margin-bottom: 20px !important; */
 }
 
 .btn-save{
   color: #2eae48;
   font-weight: bold;
   position: absolute;
-  right:15px;
-  bottom:10px;
+  right:-10px;
+  bottom:-10px;
   cursor: pointer;
+  width: 30px;
+  height: 30px;
+  font-size: 40px;
+  background-color: #66d97d95;
+  border-radius: 15px;
+  align-items: center;
+  justify-content: center;
+  display: inline-flex;
+  visibility: hidden;
 }
 
 /* NOTE GENERATOR */
@@ -36,24 +48,21 @@
 
 .card{
   background-color: rgb(165, 235, 118);
-  /* padding: 15px 15px 30px 15px; */
-  padding: 15px;
-  margin: 20px 0px;
+  /* padding: 15px 5px 0px 20px; */
+  margin: 15px 0px;
   box-shadow: 2px 2px 5px rgb(190, 190, 190);
   border-radius: 5px;
+  width: 600px;
   position: relative;
 }
 
 /* NOTE TITLE */
 
-.card .title-box{
-  margin: 5px 10px;
-}
-
 .card input{
   font-weight: bolder;
   font-size: var(--title-size);
   width: 90%;
+  margin: 10px 0px 10px 15px;
 }
 
 .card input::selection{
@@ -73,20 +82,25 @@
   background: #7ad98d;
 }
 
-.card .text-box{
+.card > .text-box{
   border-top: 2px solid rgb(98, 192, 102);
-  padding: 10px 20px 10px 15px;
-  margin-top: 5px;
+  padding: 10px 0px 5px 15px;
+  /* margin-top: 5px; */
+  display: flex;
+  flex-direction: row;
 }
 
 .card .scroll-box{
+  width: 100%;
   min-height: 50px;
   max-height: 150px;
   overflow-y: auto;
+  /* margin-bottom: 20px; */
 }
 
 .card .textarea,
 .card input{
+  box-sizing: border-box;
   border: none;
   background: transparent;
   outline: none;
@@ -95,10 +109,11 @@
 
 .card .textarea{
   width: 100%;
+  /* height: 100%; */
   font-size: var(--textarea-size);
   text-align: justify;
   display: block;
-  padding-right: 10px;
+  padding-right: 5px;
 }
 
 /* SCROLLBAR */
@@ -130,33 +145,50 @@
   visibility: visible;
 }
 
-
 /* SCROLLBAR */
 
-.card i{
-  font-size: 20px;
+/* ICONS */
+
+.card .btn-close{
   position: absolute;
+  right: 7px;
+}
+
+.card i{
+  font-size: 22px;
   color: rgb(70, 188, 90);
   opacity: 0;
-  right: 7px;
   transition: opacity 500ms ease-out;
 }
 
 .card i{
   cursor: pointer;
-  margin: 0px 2px;
 }
 
 .card:hover i{
   opacity: 1;
 }
 
+/* ICONS */
+
 /* NOTE CARD */
 
 /* NOTE TOOLS */
 
-.card .btn-color{
-  position: absolute;
+.tools-box{
+  width: 25px;
+  /* background-color: gray; */
+  /* display: none; */
+  /* margin-left: 5px; */
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.tools-box i{
+  margin: 5px 0px;
+}
+
+.tools-box .btn-color{
   bottom: 10px;
 }
 /* NOTE TOOLS */

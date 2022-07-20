@@ -10,7 +10,6 @@
 /* GENERAL STYLES */
 
 *{
-  box-sizing: border-box;
   font-family: Roboto;
   margin: 0;
   padding: 0;
@@ -101,8 +100,21 @@ nav .container .options i{
 
 .main-container{
   height: calc(100% - var(--navbar-height));
-  display: flex;
-  flex-direction: column;
 }
 
 /* MAIN CONTAINER */
+
+
+
+
+
+
+/* GENERAL */
+
+i{
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -moz-user-select: none; /* Firefox */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+}

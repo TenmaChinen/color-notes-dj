@@ -1,47 +1,110 @@
 
+const notePH = document.getElementById("note-placeholder");
+const btnCloseNotePH = notePH.querySelector(".btn-close");
+const textBoxPH = notePH.querySelector(".text-box");
+const textareaPH = notePH.querySelector(".textarea");
+const btnSavePH = notePH.querySelector(".btn-save");
+
+closePH();
+
 let timer = 0
 
 function delayTrigger(noteId){
   clearTimeout(timer);
-  timer = setTimeout(saveNote,1000,noteId);
+  timer = setTimeout(updateNote,1000,noteId);
 }
 
-function saveNote(noteId){
-  noteData = getNoteData(noteId);
-  noteData["id"] = noteId;
-  sendNotePostRequest({"note":noteData,"action":1},null);
-}
 
 function openNoteCreator(){
-  const newNote = document.getElementById("new-note");
-  // textBox = newNote.querySelector(".input");
-  // textarea = formCreator.querySelector("span");
 
-  // if ( textBox.style["display"] == "none"){
-  //   textBox.style["display"] = "block";
-  //   textarea.focus();
-  // }
+  if ( textBoxPH.style["display"] == "none"){
+    textBoxPH.style["display"] = "block";
+    btnCloseNotePH.style["visibility"] = "visible";
+    btnSavePH.style["visibility"] = "visible" ;
+    textareaPH.focus();
+  }
 }
 
-function getNoteData(noteId){
-  const note = document.getElementById(noteId);
-  const noteInputs = note.querySelectorAll(".input");
-  const noteData = {};
-
-  noteInputs.forEach(function(input){
-    let name = input.getAttribute("name");
-    if (input.tagName == "INPUT" ){
-      noteData[name] = input.value;
-    }else{
-      noteData[name] = input.textContent;
-    }
-  });
-  return noteData;
+function closePH(){
+  console.log("DEBUG");
+  textBoxPH.style["display"] = "none";
+  btnCloseNotePH.style["visibility"] = "hidden";
+  btnSavePH.style["visibility"] = "hidden";
 }
 
-function sendNotePostRequest(data,callback){
+
+function createNote(){
+  noteData = getNoteData("note-placeholder",false);
+  sendNotePostRequest(
+    {"note":noteData},
+    function(jsonResponse){
+      noteData.id = jsonResponse.id;
+      addNoteElement(noteData);
+      clearNoteCreator();
+    },
+    "/notes/create/"
+    );
+}
+
+function addNoteElement(noteData){
+  notesContainer = document.getElementById("notes-container")
+  firstNote = notesContainer.children[1];
+  newNote = createNoteElement(noteData);
+  notesContainer.insertBefore(newNote,firstNote);
+}
+
+function clearNoteCreator(){
+
+}
+
+
+function createNoteElement(noteData){
+  const note = document.createElement("div");
+  note.classList.add("card");
+  note.id = noteData.id;
+  note.innerHTML = `
+    <input class="input" name = "title" placeholder="Title" value = "${noteData.title}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('${noteData.id}')"></input>
+    <div class="text-box">
+      <div class="scroll-box">
+        <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('${noteData.id}')">${noteData.text}</span>
+      </div>
+      <div class="tools-box">
+        <i class="material-icons btn-color" role="button">&#xe40a</i>
+        <i class="material-icons btn-fontsize" role="button">&#xe262</i>
+      </div>
+      <i class="material-icons btn-close" role="button" onclick="deleteNote('${note.id}')">&#xe5cd</i>
+    </div>
+  `;
+  return note;
+}
+
+
+function updateNote(noteId){
+  noteData = getNoteData(noteId,false);
+  sendNotePostRequest(
+    {"note":noteData},null,`/notes/update/${noteId}/`);
+}
+
+function deleteNote(noteId){
+  sendNotePostRequest(
+    null,
+    function(jsonResponse){
+      if ( jsonResponse.isDeleted ){
+        console.log(jsonResponse.isDeleted);
+        note = document.getElementById(noteId);
+        notesContainer = document.getElementById("notes-container");
+        notesContainer.removeChild(note);
+      }
+    },
+    `/notes/delete/${noteId}/`);
+}
+
+/* REQUEST */
+
+function sendNotePostRequest(data,callback,url){
+
   const xhttp = new XMLHttpRequest();
-  xhttp.open("POST", currentUrl, true);
+  xhttp.open("POST", url, true);
   if ( callback != null ){
     xhttp.onreadystatechange = function()
     {
@@ -56,50 +119,22 @@ function sendNotePostRequest(data,callback){
   xhttp.send(JSON.stringify(data));
 }
 
-function saveNewNote(){
-  noteData = getNoteData("new-note");
-  sendNotePostRequest(
-    {"note":noteData,"action":0},
-    function(jsonResponse){
-      noteData["id"] = jsonResponse["id"];
-      createNote(noteData);
-    });
-}
-
-function createNote(noteData){
-  notesContainer = document.getElementById("notes-container")
-  firstNote = notesContainer.children[1];
-  newNote = getNewNoteElement(noteData);
-  notesContainer.insertBefore(newNote,firstNote);
-}
 
 
-function getNewNoteElement(noteData){
-  note = document.createElement("div");
-  note.classList.add("card");
-  note.id = noteData.id;
-  note.innerHTML = `
-    <input class="input" name = "title" placeholder="Title" value = "${noteData.title}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('${noteData.id}')"></input>
-    <div class="text-box">
-      <div class="scroll-box">
-        <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('${noteData.id}')">${noteData.text}</span>
-      </div>
-    </div>
-    <i class="material-icons btn-close" role="button" >&#xe5cd</i>
-    <i class="material-icons btn-color" role="button">&#xe40a</i>
-  `;
-  return note;
-}
+/* UTILS */
 
-
-function deleteNote(noteId){
-  sendNotePostRequest(
-    {"noteId":noteId,"action":2},
-    function(jsonResponse){
-      if ( jsonResponse.isDeleted ){
-        note = document.getElementById(noteId);
-        notesContainer = document.getElementById("notes-container");
-        notesContainer.removeChild(note);
-      }
-    });
+function getNoteData(noteId,storeId){
+  const note = document.getElementById(noteId);
+  const noteInputs = note.querySelectorAll(".input");
+  const noteData = storeId ? {"id":noteId} : {};
+ 
+  noteInputs.forEach(function(input){
+    const name = input.getAttribute("name");
+    if (input.tagName == "INPUT" ){
+      noteData[name] = input.value;
+    }else{
+      noteData[name] = input.textContent;
+    }
+  });
+  return noteData;
 }
