@@ -1,0 +1,127 @@
+/*   D R A W E R   */
+.drawer{
+  width: 250px;
+  height: 100%;
+  box-shadow: 3px 4px 10px -4px rgba(0, 0, 0, 0.1);
+  background-color: rgb(255, 253, 210);
+  z-index: 1;
+}
+
+/*   D R A W E R   */
+
+/*   I N P U T   G R O U P   */
+.drawer .note-group{
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgb(205, 202, 191);
+}
+
+.drawer .note-group:hover{
+  background-color: rgb(220,220,220,0.2);
+}
+/*   I N P U T   G R O U P   */
+
+/*   I N P U T   G R O U P   I N P U T   */
+
+.drawer .note-group input{
+  border: none;
+  background: none;
+  font-size: 20px;
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  /* margin: 5px; */
+  box-sizing: border-box;
+  color: rgb(192, 173, 138);
+  font-weight: bolder;
+}
+/*   I N P U T   G R O U P   I N P U T   */
+
+/*   I N P U T   G R O U P   D R O P   B T N   */
+
+.drawer .note-group .btn-options{
+  font-size: 25px;
+  color: rgb(190, 190, 165);
+  opacity: 0;
+  transition: opacity ease-in-out 0.3s;
+  background-color: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.drawer .note-group:hover .btn-options{
+  opacity: 1;
+}
+
+/*   I N P U T   G R O U P   D R O P   B T N   */
+
+/*   I N P U T   G R O U P   D R O P D O W N   M E N U   */
+
+.drop-group{
+  position: relative;
+  box-sizing: border-box;
+}
+
+
+.drop-group > .drop-menu{
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  top: -5px;
+  right: 0px;
+  width: 100px;
+  transform: translateX(100%);
+  background-color: gray;
+  padding: 5px;
+  border-radius: 3px;
+  box-sizing: border-box;
+  z-index: 100;
+  outline: none;
+}
+
+.drop-group .drop-menu > span{
+  box-sizing: border-box;
+  padding: 1px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  /* background-color: aqua; */
+  border-bottom: 1px solid rgb(190, 190, 190);
+  cursor: pointer;
+}
+
+.drop-group .drop-menu > span:hover{
+  background-color: rgb(120, 120, 120);
+}
+
+/*   I N P U T   G R O U P   D R O P D O W N   M E N U   */
+
+
+/*   M E D I A   Q U E R I E S   */
+
+/*   S M A L L   D E V I C E   */
+@media screen and (max-width : 450px) {
+
+  .drawer{
+    width: 180px;
+  }
+
+  .drawer .note-group input{
+    font-size: 16px;
+  }
+
+}  
+
+/*   D R A W E R   O V E R L A P   Q U E R Y   */
+@media screen and (max-width : 900px) {
+  .drawer{
+    /* width: 300px; */
+    /* To Overlap Notes */
+    position: absolute;
+    top:0px;
+    left: 0px;
+    /* background-color: aqua; */
+  }
+}
+
+/*   M E D I A   Q U E R I E S   */

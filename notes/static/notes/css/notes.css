@@ -1,125 +1,135 @@
 :root{
-  --title-size:26px;
-  --textarea-size:20px;
+  --title-size: 22px;
+  --textarea-size: 20px;
+  --note-bg:rgb(165, 235, 118);
+  --icon-bg: rgb(70, 188, 90);
+  --sel-bg:rgb(122, 217, 141);
+  --text-fg: rgb(21, 108, 30);
 }
 
-/* NOTES CONTAINER */
+
+
+/*   N O T E S   C O N T A I N E R   */
 
 .notes-container{
   background-color: rgb(255, 250, 238);
+  /* background-color: blue; */
   color: rgb(255, 255, 255);
-  height: 100%;
-  padding: 40px 30px 1000px 40px;
+  /* height: 100%; */
+  padding: 40px 30px 1000px 10px; /* T R B L */
+  flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;
 }
 
-/* NOTES CONTAINER */
+/*   N O T E S   C O N T A I N E R   */
 
-/* NOTE GENERATOR */
+/*   N O T E   P H   */
 
-.card-generator{
-  /* padding-bottom: 30px !important; */
-  /* margin-bottom: 20px !important; */
+#note-ph{
+  margin-bottom: 20px;
+  position: relative;
 }
 
-.btn-save{
-  color: #2eae48;
+#note-ph>.btn-add{
+  color: rgba(46, 174, 72, 0.62);
   font-weight: bold;
   position: absolute;
   right:-10px;
-  bottom:-10px;
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
+  bottom:-25px;
   font-size: 40px;
-  background-color: #66d97d95;
-  border-radius: 15px;
-  align-items: center;
-  justify-content: center;
-  display: inline-flex;
-  visibility: hidden;
+  background-color: rgba(159, 255, 74, 0.584);
+  border-radius: 25px;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  padding: 5px;
+  /* visibility: hidden; */
 }
 
-/* NOTE GENERATOR */
+/*   N O T E   P H   */
 
-/* NOTE CARD */
+/* N O T E */
 
-.card{
-  background-color: rgb(165, 235, 118);
-  /* padding: 15px 5px 0px 20px; */
-  margin: 15px 0px;
+.note{
+  /* background-color: var(--note-bg); */
+  margin-top: 20px;
   box-shadow: 2px 2px 5px rgb(190, 190, 190);
   border-radius: 5px;
   width: 600px;
   position: relative;
 }
 
-/* NOTE TITLE */
-
-.card input{
-  font-weight: bolder;
-  font-size: var(--title-size);
-  width: 90%;
-  margin: 10px 0px 10px 15px;
+.note:focus{
+  outline: none;
 }
 
-.card input::selection{
-  background: #7ad98d;
-}
+/* N O T E */
 
-.card .btn-close{
-  width: 20px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-}
+/*   T I T L E   &   T E X T A R E A   */
 
-/* NOTE TITLE */
-
-.textarea::selection{
-  background: #7ad98d;
-}
-
-.card > .text-box{
-  border-top: 2px solid rgb(98, 192, 102);
-  padding: 10px 0px 5px 15px;
-  /* margin-top: 5px; */
-  display: flex;
-  flex-direction: row;
-}
-
-.card .scroll-box{
-  width: 100%;
-  min-height: 50px;
-  max-height: 150px;
-  overflow-y: auto;
-  /* margin-bottom: 20px; */
-}
-
-.card .textarea,
-.card input{
+.note > .title,
+.note .textarea{
   box-sizing: border-box;
   border: none;
   background: transparent;
   outline: none;
-  color: rgb(21, 108, 30);
+  color: var(--text-fg);
 }
 
-.card .textarea{
+.note > .title::selection,
+.note .textarea::selection{
+  background: rgba(97, 97, 97, 0.2);
+}
+
+/*   T I T L E   &   T E X T A R E A   */
+
+/* T I T L E */
+
+.note > .title{
+  font-size: var(--title-size);
+  font-weight: bolder;
   width: 100%;
-  /* height: 100%; */
+  padding: 10px 0px 10px 15px;
+  /* box-sizing: border-box; */
+}
+
+/* T I T L E */
+
+/* T E X T A R E A */
+
+.note .textarea{
   font-size: var(--textarea-size);
   text-align: justify;
   display: block;
-  padding-right: 5px;
+  font-weight: 500;
+  padding: 0px 20px 10px 20px; /* T R B L */
 }
 
-/* SCROLLBAR */
+.note .text-box{
+  padding: 10px 0px; /* V H */
+  border-top: 2px solid;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+.note .scroll-box{
+  width: 100%;
+  min-height: 50px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* T E X T A R E A */
+
+
+/* S C R O L L B A R */
 
 .scroll-box::-webkit-scrollbar {
-  width: 6px;
+  width: 10px;
 }
 
 /* Track */
@@ -130,14 +140,14 @@
 
 /* Handle */
 .scroll-box::-webkit-scrollbar-thumb {
-  background-color: #2eae48; 
+  background-color: #65656561; 
   border-radius: 6px;
   visibility: hidden;
 }
 
 /* Handle on hover */
 .scroll-box::-webkit-scrollbar-thumb:hover {
-  background-color: #218d36; 
+  background-color: #3b3b3b63; 
   visibility: visible;
 }
 
@@ -145,52 +155,44 @@
   visibility: visible;
 }
 
-/* SCROLLBAR */
+/* S C R O L L B A R */
 
-/* ICONS */
 
-.card .btn-close{
+/* T O O L S   B O X */
+
+.note .tool-box{
+  height: 100%;
+  /* background-color: var(--note-bg); */
+  padding: 10px;
+  box-sizing: border-box;
   position: absolute;
-  right: 7px;
-}
-
-.card i{
-  font-size: 22px;
-  color: rgb(70, 188, 90);
+  right: -55px;
+  top:0px;
+  display: grid;
+  grid-template-rows: 30px 1fr;
+  justify-content: space-around;
+  row-gap: 10px;
   opacity: 0;
-  transition: opacity 500ms ease-out;
+  transition: opacity ease-in-out 0.5s, visibility 0.5s;
+  visibility: hidden;
 }
 
-.card i{
-  cursor: pointer;
-}
-
-.card:hover i{
+.note:hover .tool-box{
   opacity: 1;
+  visibility: visible;
 }
 
-/* ICONS */
-
-/* NOTE CARD */
-
-/* NOTE TOOLS */
-
-.tools-box{
-  width: 25px;
-  /* background-color: gray; */
-  /* display: none; */
-  /* margin-left: 5px; */
-  display: flex;
-  flex-direction: column-reverse;
+.note .tool-box i{
+  display: block;
+  font-size: 22px;
+  color: var(--icon-bg);
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--note-bg);
+  /* background-color: red; */
+  padding: 5px;
+  border-radius: 20px;
 }
 
-.tools-box i{
-  margin: 5px 0px;
-}
-
-.tools-box .btn-color{
-  bottom: 10px;
-}
-/* NOTE TOOLS */
-
-
+/* T O O L S   B O X */

@@ -23,24 +23,20 @@ html{
 
 body{
   padding: 0.1px;
-  box-sizing: border-box;
   background-color:white;
   /* background-color: blueviolet; */
   height: 100vh;
 }
 
+/* GENERAL STYLES */
+
 /* MAIN CONTAINER */
 
 .main-container{
-  position: relative;
-  height: calc(100% - var(--navbar-height));
-  display: flex;
-  flex-direction: row;
   padding: 0.1px;
-  background-color: black;
-  /* background-color: beige; */
-  z-index: 0;
-  overflow-y: hidden;
+  background-color: beige;
+  min-height: 800px;
+  height: calc(100% - var(--navbar-height));
 }
 
 /* MAIN CONTAINER */
@@ -49,14 +45,6 @@ body{
 /* GENERAL */
 
 /* Avoid Select Icons */
-
-a{
-  text-decoration-line: none;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
-}
-
 i{
   user-select: none; /* supported by Chrome and Opera */
  -webkit-user-select: none; /* Safari */

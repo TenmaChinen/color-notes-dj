@@ -3,43 +3,91 @@
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notes.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'notes/css/menucolor.css' %}">
+
+<!-- TODO : DISABLE TRIGGERS TO DATABASE IF USER IS ANONYMOUS -->
 
 <div id="notes-container" class="notes-container">
-
-  <div id="note-placeholder" class="card card-generator">  
-    <input class="input" name="title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onclick="openNoteCreator()">
-    <!-- <div id="text-box-generator" class="text-box" style="display: none;"> -->
+  {% for note in firstNoteGroup.notes reversed %}
+  <div id="note-{{note.id}}" class="note">
+    <input class="input title" name="title" placeholder="Title" value="{{note.title}}" maxlength="100"
+      autocomplete="off" onkeyup="delayTrigger(event,'note-{{note.id}}')"></input>
     <div class="text-box">
       <div class="scroll-box">
-        <span class="input textarea" type="text" name="text" role="textbox" contenteditable ></span>
+        <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text"
+          onkeyup="delayTrigger(event,'note-{{note.id}}')">{{note.text}}</span>
       </div>
     </div>
-    <i class="btn-close material-icons" role="buttton" onclick="closePH()">&#xe5cd</i>
-    <i class="btn-save material-icons" role="button" onclick="createNote()">&#xe145</i>
+    <div class="tool-box">
+      <i class="material-icons btn-close" role="button" onclick="onClickDeleteNote('note-{{note.id}}')">&#xe5cd</i>
+      <div class="menu-color">
+        <i class="material-icons btn-color" onclick="openMenu(event)" tabindex="-1" role="button">&#xe40a</i>
+        <div class="dropdown" currColorId='{{note.color_id}}' onfocusout="onContainerFocusOut(event)" tabindex="0"
+          onoptionselected="onColorSelected(colorId,'note-{{note.id}}')">
+        </div>
+      </div>
+    </div>
   </div>
-
-  {% for note in notes reversed %}
-    <div id="{{note.id}}" class="card">
-      <input class="input" name = "title" placeholder="Title" value = "{{note.title}}" maxlength="100" autocomplete="off" onkeyup="delayTrigger('{{note.id}}')"></input>
-      <div class="text-box">
-        <div class="scroll-box">
-          <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger('{{note.id}}')">{{note.text}}</span>
-        </div>
-        <div class="tools-box">
-          <i class="material-icons btn-color" role="button">&#xe40a</i>
-          <i class="material-icons btn-fontsize" role="button">&#xe262</i>
-        </div>
-        <i class="material-icons btn-close" role="button" onclick="deleteNote('{{note.id}}')">&#xe5cd</i>
-      </div>
-    </div>
   {% endfor %}
 </div>
 
 <script>
+
   const csrftoken = "{{ csrf_token }}";
   const currentUrl = "{{ request.get_full_path }}";
-</script> 
+  const user = "{{request.user}}";
 
-<script src="{% static 'notes/js/notes.js' %}"></script>
+</script>
+
+<script src="{% static 'notes/js/noteElement.js' %}"></script>
+<script src="{% static 'notes/js/noteColor.js' %}"></script>
+<script src="{% static 'notes/js/menuColor.js' %}"></script>
+<script src="{% static 'notes/js/noteCallbacks.js' %}"></script>
+
+<script>
+
+  const notesContainer = document.getElementById("notes-container");
+
+  /*   I N I T   */
+
+  createNotesDropdownOptions();
+  setNotesColors("notes-container");
+
+  /*   N O T E   P L A C E   H O L D E R   */
+
+  const notePH = createNotePH();
+  createAddButton(notePH);
+
+  /*   N O T E   C A L L B A C K   */
+
+  onCreateNote((groupId, noteData) => {
+    // console.log(groupId,noteData);
+    createNoteRequest(groupId, noteData, response => {
+      if (response.success) {
+        noteData.id = response.newNoteId;
+        addNoteElement(noteData);
+      }
+    });
+  });
+
+  onUpdateNote((noteGroupId, noteId, elementName) => {
+    // console.log(noteGroupId, noteId, elementName);
+    updateNoteRequest(noteGroupId, noteId, elementName);
+  });
+
+
+  onDeleteNote((noteGroupId, noteId) => {
+    // console.log("DELETE : ", noteGroupId, noteId);
+    deleteNoteRequest(noteGroupId,noteId, response => {
+      if (response.success) {
+        notesContainer.removeChild(document.getElementById(noteId));
+      }
+    });
+  });
+
+
+</script>
+<script src="{% static 'notes/js/notePH.js' %}"></script>
+<script src="{% static 'notes/js/requests.js' %}"></script>
 
 {% endblock %}

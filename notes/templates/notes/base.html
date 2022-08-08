@@ -2,44 +2,84 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website Notes</title>
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
-  
+  <title>Color Notes</title>
+
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <link rel="stylesheet" type="text/css" href="{% static 'notes/css/base.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'notes/css/navbar.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'notes/css/drawer.css' %}">
 </head>
 
 <body>
 
-  <nav>
-    <div class="container">
-      <h1>COLOR NOTES</h1>
-      <div class="options">
-        {% if user.is_authenticated %}
-          <span class="username">{{user.username}}</span>
-          <a class="logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}"><i class="material-icons">&#xe9ba;</i></a>
-        {% else %}
-          <a href="{% url 'users:login' %}">LOGIN</a>
-          <a class="sign-up" href="{% url 'users:register' %}">SIGN UP</a>
-        {% endif %}
-      </div>
-
-    </div>
+  <nav class="navbar">
+    <i id="btn-drawer" class="material-icons btn-drawer" onclick="toggleDrawer()" role="button">&#xe5d2</i>
+    <span id="nav-title">COLOR NOTES</span>
+    <i id="btn-nav-tools" class="material-icons" onclick="toggleNavTools()" role="button">&#xe5d4</i>
   </nav>
 
+  <div id="nav-tools">
+    {% if user.is_authenticated %}
+    <span class="btn-username">{{user.username}}</span>
+    <a class="btn-logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}">
+      <i class="material-icons">&#xe9ba;</i></a>
+    {% else %}
+    <a href="{% url 'users:login' %}">LOGIN</a>
+    <a class="sign-up" href="{% url 'users:register' %}">SIGN UP</a>
+    {% endif %}
+  </div>
+
   <div class="main-container">
+
+    <div id="drawer" class="drawer"></div>
+
     {% block content %}
 
     {% endblock %}
   </div>
 
 </body>
+
+<script src="{% static 'notes/js/drawer.js' %}"></script>
+<script src="{% static 'notes/js/navbar.js' %}"></script>
+
+<script type="text/javascript">
+
+  /*   I N I T   */
+  const noteGroups = JSON.parse("{{ noteGroups|escapejs }}");
+
+  noteGroups.forEach(noteGroup => {
+    createNoteGroup(noteGroup.id, noteGroup.title);
+  });
+
+  currNoteGroup = drawer.firstChild;
+
+  /*   D R A W E R   C A L L B A C K S   */
+
+  onNoteGroupSelected(noteGroupId => {
+    readGroupRequest(noteGroupId, noteGroup => {
+      clearNoteElements();
+      addNotesElement(noteGroup.notes);
+    });
+  });
+
+
+  onNoteGroupDelete(noteGroupId => {
+    console.log(`Delete Note Group ID : ${noteGroupId}`);
+  });
+
+  /*   D E B U G   P U R P O S E   */
+
+  toggleDrawer();
+</script>
+
 </html>

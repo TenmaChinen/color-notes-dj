@@ -1,2 +1,5 @@
 TODO.txt
 designs
+users/migrations
+notes/migrations
+db.sqlite3

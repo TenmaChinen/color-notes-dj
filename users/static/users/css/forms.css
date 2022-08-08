@@ -4,12 +4,16 @@
 }
 
 :root{
-	--form-fg: #bc8a67;
-	--form-bg: #ffd8b9;
-	--placeholder-fg: #988e88;
-	--form-footer-bg: #f0b180;
-	--btn-bg:#edbc8d;
-	--btn-bg-hover:#e0b288;
+	/* --form-fg: #bc8a67; */
+	/* --form-bg: #ffd8b9; */
+	/* --btn-bg:#edbc8d;
+	--btn-bg-hover:#e0b288; */
+	--btn-bg:#e4e4a1;
+	--btn-bg-hover:#c3c37b;
+	--form-fg: #b5b567;
+	--form-bg: #f6f6b6;
+	--placeholder-fg: #4545457e;
+	--form-footer-bg: #dbdb9b;
 	--title-size:35px;
 	--label-size:18px;
 	--input-size:20px;
@@ -20,6 +24,7 @@
 
 
 .form-container{
+	display: block;
 	color: var(--form-fg);
 	font-weight: bold;
 	align-self: center;
@@ -27,6 +32,10 @@
 	background-color: var(--form-bg);
 	width: 500px;
 	margin-top: 50px;
+	margin-left: auto;
+	margin-right: auto;
+	outline: 1px solid gray;
+	padding: 0.1px;
 }
 
 .form-container form{
@@ -37,10 +46,13 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 30px;
 	border-radius: 100px;
 	width: 100px;
 	height: 100px;
+	/* box-sizing: border-box; */
+	/* padding-top: 20px; */
+	margin-top: 20px;
+	outline: 1px solid rgb(170, 170, 170);
 }
 
 .form-title{
