@@ -1,39 +1,48 @@
 
-function readGroupRequest(groupId,callback) {
+/*   N O T E   R E Q U E S T S   */
+
+function createNoteRequest(groupId, noteData, callback) {
   const groupDataBaseId = getDataBaseId(groupId);
-  sendNotePostRequest(null,callback,`/notes/read-group/${groupDataBaseId}/`);
+  sendNotePostRequest(noteData, callback, `/notes/create/${groupDataBaseId}/`);
 }
 
+const name2Code = { all: 0, title: 1, text: 2, color: 3 };
 
-function createNoteRequest(groupId,noteData,callback) {
-  const groupDataBaseId = getDataBaseId(groupId);
-  console.log(groupDataBaseId,noteData);
-  sendNotePostRequest(noteData,callback,`/notes/create/${groupDataBaseId}/`);
-}
-
-const name2Code = {
-  "all": 0,
-  "title": 1,
-  "text": 2,
-  "color": 3
-};
-
-
-function updateNoteRequest(groupId ,noteId, elementName) {
+function updateNoteRequest(groupId, noteId, elementName) {
   const elementCode = name2Code[elementName];
   noteData = getNoteData(noteId, false, elementCode);
   const groupDataBaseId = getDataBaseId(groupId);
-  const noteDataBaseId = getDataBaseId(noteId); 
+  const noteDataBaseId = getDataBaseId(noteId);
   sendNotePostRequest(
     noteData, null, `/notes/update/${groupDataBaseId}/${noteDataBaseId}/${elementCode}/`);
 }
 
-function deleteNoteRequest(groupId, noteId,callback) {
+function deleteNoteRequest(groupId, noteId, callback) {
   const groupDataBaseId = getDataBaseId(groupId);
   const noteDataBaseId = getDataBaseId(noteId);
-  sendNotePostRequest( null, callback,`/notes/delete/${groupDataBaseId}/${noteDataBaseId}/`);
+  sendNotePostRequest(null, callback, `/notes/delete/${groupDataBaseId}/${noteDataBaseId}/`);
 }
 
+/*   G R O U P   R E Q U E S T S   */
+
+function createGroupRequest(groupTitle, callback) {
+  sendNotePostRequest(groupTitle, callback, `/groups/create/`);
+}
+
+function readGroupRequest(groupId, callback) {
+  const groupDataBaseId = getDataBaseId(groupId);
+  sendNotePostRequest(null, callback, `/groups/read/${groupDataBaseId}/`);
+}
+
+function updateGroupRequest(groupId, title, callback) {
+  const groupDataBaseId = getDataBaseId(groupId);
+  sendNotePostRequest(title, callback, `/groups/update/${groupDataBaseId}/`);
+}
+
+function deleteGroupRequest(groupId, callback) {
+  const groupDataBaseId = getDataBaseId(groupId);
+  sendNotePostRequest(null, callback, `/groups/delete/${groupDataBaseId}/`);
+}
 
 /*   P O S T   R E Q U E S T   */
 
@@ -54,7 +63,7 @@ function sendNotePostRequest(data, callback, url) {
 
 /*   U T I L S   */
 
-function getNoteData(noteId, storeId=true, elementCode = 0) {
+function getNoteData(noteId, storeId = true, elementCode = 0) {
   const note = document.getElementById(noteId);
   const noteData = storeId ? { "id": noteId } : {};
 
@@ -73,6 +82,6 @@ function getNoteData(noteId, storeId=true, elementCode = 0) {
 }
 
 
-function getDataBaseId(noteId){
+function getDataBaseId(noteId) {
   return noteId.split('-')[1];
 }

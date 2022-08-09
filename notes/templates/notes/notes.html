@@ -31,14 +31,6 @@
   {% endfor %}
 </div>
 
-<script>
-
-  const csrftoken = "{{ csrf_token }}";
-  const currentUrl = "{{ request.get_full_path }}";
-  const user = "{{request.user}}";
-
-</script>
-
 <script src="{% static 'notes/js/noteElement.js' %}"></script>
 <script src="{% static 'notes/js/noteColor.js' %}"></script>
 <script src="{% static 'notes/js/menuColor.js' %}"></script>
@@ -46,22 +38,18 @@
 
 <script>
 
-  const notesContainer = document.getElementById("notes-container");
-
   /*   I N I T   */
 
-  createNotesDropdownOptions();
+  addNotesDropdownOptions();
   setNotesColors("notes-container");
 
   /*   N O T E   P L A C E   H O L D E R   */
 
   const notePH = createNotePH();
-  createAddButton(notePH);
-
+  
   /*   N O T E   C A L L B A C K   */
 
   onCreateNote((groupId, noteData) => {
-    // console.log(groupId,noteData);
     createNoteRequest(groupId, noteData, response => {
       if (response.success) {
         noteData.id = response.newNoteId;
@@ -71,13 +59,10 @@
   });
 
   onUpdateNote((noteGroupId, noteId, elementName) => {
-    // console.log(noteGroupId, noteId, elementName);
     updateNoteRequest(noteGroupId, noteId, elementName);
   });
 
-
   onDeleteNote((noteGroupId, noteId) => {
-    // console.log("DELETE : ", noteGroupId, noteId);
     deleteNoteRequest(noteGroupId,noteId, response => {
       if (response.success) {
         notesContainer.removeChild(document.getElementById(noteId));

@@ -3,7 +3,7 @@
   --navar-bg:rgb(247, 242, 156);
   --navar-fg:rgb(187, 180, 50);
   --navar-fg-hover:rgb(206, 199, 63);
-  --nav-text-size:20px;
+  --nav-text-size:22px;
   --icon-size:25px;
 }
 
@@ -80,6 +80,7 @@
   margin-right: 5px;
   text-align: center;
   font-size: var(--nav-text-size);
+  color: var(--navar-fg);
 }
 
 #nav-tools > a:hover{

@@ -1,34 +1,42 @@
+const notesContainer = document.getElementById("notes-container");
+
+/*   F U N C T I O N S   */
 
 // Function depending on menuColor.js
-function createNotesDropdownOptions(){
-  const dropdowns = document.querySelectorAll(".dropdown");
-  dropdowns.forEach(dropdown => createDropdownOptions(dropdown));
-}
 
-
-function createNotePH() {
-  const notesContainer = document.getElementById("notes-container");
-  const noteData = {id:"note-ph",title:"",text:"",color_id:0};
-  const notePH = createNoteElement(noteData);
-  notesContainer.prepend(notePH);
-  setNoteColor(noteData.id, noteData.color_id);
-  return notePH;
-}
-
-
-function addNotesElement(notesData){
+function addNotesElement(notesData) {
   notesData.map(addNoteElement);
 }
 
 function addNoteElement(noteData) {
   noteData.id = `note-${noteData.id}`;
-  const notesContainer = document.getElementById("notes-container")
   const firstNote = notesContainer.children[1];
   const newNote = createNoteElement(noteData);
   notesContainer.insertBefore(newNote, firstNote);
   setNoteColor(noteData.id, noteData.color_id);
 }
 
+function addNotesDropdownOptions() {
+  const dropdowns = document.querySelectorAll(".dropdown");
+  dropdowns.forEach(dropdown => createDropdownOptions(dropdown));
+}
+
+function createNotePH() {
+  const noteData = { id: "note-ph", title: "", text: "", color_id: 0 };
+  const notePH = createNoteElement(noteData);
+  notesContainer.prepend(notePH);
+  setNoteColor(noteData.id, noteData.color_id);
+  notePH.innerHTML += `<i class="material-icons btn-add" role="button" onclick="addNewNote()">&#xe145</i>`;
+  // notePH.innerHTML += `<i class="material-icons btn-add" role="button" onclick="addNewNote('${parent.parentElement.id}')">&#xe145</i>`;
+  return notePH;
+}
+
+function setNotePHDisplay(state) {
+  notePH.style.setProperty("display", state ? "block" : "none");
+}
+
+
+/*   C R E A T O R S   */
 
 function createNoteElement(noteData) {
   const note = document.createElement("div");
@@ -42,7 +50,7 @@ function createNoteElement(noteData) {
       </div>
     </div>
     <div class="tool-box">
-      <i class="material-icons btn-close" role="button" onclick="onClickDeleteNote('note-{{note.id}}')">&#xe5cd</i>
+      <i class="material-icons btn-close" role="button" onclick="onClickDeleteNote('${noteData.id}')">&#xe5cd</i>
       <div class="menu-color">
         <i class="material-icons btn-color" onclick="openMenu(event)" tabindex="-1" role="button">&#xe40a</i>
         <div class="dropdown" currColorId=${noteData.color_id} onfocusout="onContainerFocusOut(event)" tabindex="0"
@@ -56,17 +64,7 @@ function createNoteElement(noteData) {
   return note;
 }
 
-
-function createAddButton(parent) {
-  parent.innerHTML +=
-  `<i class="material-icons btn-add" role="button" onclick="addNewNote()">&#xe145</i>`;
-  // `<i class="material-icons btn-add" role="button" onclick="addNewNote('${parent.parentElement.id}')">&#xe145</i>`;
-}
-
-
-
-
-function clearNoteElements(){
+function clearNoteElements() {
   const firstChild = notesContainer.firstChild;
   notesContainer.innerHTML = null;
   notesContainer.appendChild(firstChild);

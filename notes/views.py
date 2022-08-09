@@ -1,12 +1,32 @@
 from distutils.command.build_scripts import first_line_re
+import re
 from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 from .models import NoteModel, NoteGroupModel
 from django.forms.models import model_to_dict
 import json
+# import pdb
 
-def index(request):
-	return render(request,'notes/index.html')
+''' TODO : ADAPT TO GROUP ID MODEL '''
+
+def create_note(request,group_id):
+
+	if request.method == 'POST' :
+		user = request.user
+		d_note_data = json.loads(request.body)
+		if not user.is_anonymous :
+			new_note = NoteModel(group_id=group_id, **d_note_data) 
+			new_note.save()
+			return JsonResponse({'success':True, 'newNoteId' : new_note.id})
+		else:
+			session = request.session
+			note_id = session['note_id']
+			d_note_data['id'] = note_id
+			session['note_id'] = str(int(session['note_id']) + 1)
+			session['notes'][str(group_id)][note_id] = d_note_data
+			session.modified = True
+			return JsonResponse({'success':True, 'newNoteId' : d_note_data['id']})
+	
 
 
 ''' TODO : ADAPT TO SHOW DIFFERENT GROUP_NOTE '''
@@ -16,76 +36,147 @@ def notes_view(request):
 	if not user.is_anonymous :
 		note_groups = NoteGroupModel.objects.filter(user=user)
 		l_d_note_groups = [model_to_dict(note_group,fields=['id','title']) for note_group in note_groups]
-		d_first_note_group = l_d_note_groups[0].copy()
-		notes = NoteModel.objects.filter(group=d_first_note_group['id'])
-		d_first_note_group['notes'] = serialize_notes(notes)
-		note_groups_json = json.dumps(l_d_note_groups)
-		context = { 'noteGroups' : note_groups_json , 'firstNoteGroup' : d_first_note_group }
+		d_first_group = l_d_note_groups[-1].copy()
+		notes = NoteModel.objects.filter(group=d_first_group['id'])
+		d_first_group['notes'] = serialize_notes(notes)
+
 	else:
-		context = {'noteGroups' : "[]", 'firstNoteGroup' : "null"}
-	
+		session = request.session
+		# if True:
+		if 'groups' not in session:
+			session['note_id'] = '1'
+			session['group_id'] = '1'
+			session['groups'] = {}
+			session['notes'] = {}
+
+		l_d_note_groups = list(session['groups'].values())
+		if l_d_note_groups :
+			d_first_group = l_d_note_groups[-1].copy()
+			l_d_notes = list(session['notes'].get(d_first_group['id'],{}).values())
+			# pdb.set_trace()
+			d_first_group['notes'] = l_d_notes
+		else:
+			d_first_group = {}
+		
+	json_note_groups = json.dumps(l_d_note_groups)
+	context = {'noteGroups' : json_note_groups , 'firstNoteGroup' : d_first_group}
+
 	return render(request,'notes/notes.html',context)
-
-
-def read_group(request,group_id):
-	if request.method == 'POST' :
-		user = request.user
-		group = NoteGroupModel.objects.get(user=user,id = group_id)
-		notes = NoteModel.objects.filter(group_id = group.id)
-		d_group = model_to_dict(group)
-		d_group['notes'] = serialize_notes(notes)
-		return JsonResponse(d_group)
-
-
-''' TODO : ADAPT TO GROUP ID MODEL '''
-
-def create_note(request,group_id):
-
-	if request.method == 'POST' :
-		user = request.user
-		if not user.is_anonymous :
-			note_data = json.loads(request.body)
-			new_note = NoteModel(group_id=group_id, **note_data) 
-			new_note.save()
-			return JsonResponse({'success':True, 'newNoteId' : new_note.id})
-			
-	# if hasattr( user,'last_note_id' ):
-	# 	user.last_note_id += 1
-	# else:
-	# 	user.last_note_id = 1
-		
-	# return JsonResponse({'id':user.last_note_id})
-	return JsonResponse({})
-
 	
+
 def update_note(request,group_id,note_id,element_id):
-	
 	if request.method == 'POST' :
-		# pprint(f'Group ID : {group_id} | Note ID : {note_id} | Element ID : {element_id}')
+		user = request.user
 		note_data = json.loads(request.body)
-		# group = NoteGroupModel.objects.get(id=group_id)
-		note = NoteModel.objects.get(group_id=group_id, id=note_id)
-		if element_id == 1 or element_id == 0 :
-			note.title = note_data['title']
-		
-		if element_id == 2 or element_id == 0 :
-			note.text = note_data['text']
+		if not user.is_anonymous :
+			note = NoteModel.objects.get(group_id=group_id, id=note_id)
+			if element_id == 1 or element_id == 0 :
+				note.title = note_data['title']
+			
+			if element_id == 2 or element_id == 0 :
+				note.text = note_data['text']
 
-		if element_id == 3 or element_id == 0 :
-			note.color_id = note_data['color_id']
+			if element_id == 3 or element_id == 0 :
+				note.color_id = note_data['color_id']
+			note.save()
+		else:
+			session = request.session
+			note = session['notes'][str(group_id)][str(note_id)]
+			if element_id == 1 or element_id == 0 :
+				note['title'] = note_data['title']
+			
+			if element_id == 2 or element_id == 0 :
+				note['text'] = note_data['text']
 
-		note.save()
+			if element_id == 3 or element_id == 0 :
+				note['color_id'] = note_data['color_id']
+
+			session.modified = True
 
 	return HttpResponse()
 
-
 def delete_note(request,group_id,note_id):
-	note = NoteModel.objects.get(group_id = group_id, id=note_id)
-	pprint(note.delete())
-	return JsonResponse({'success':True})
+	if request.method == 'POST' :
+		user = request.user
+		if not user.is_anonymous :
+			note = NoteModel.objects.get(group_id = group_id, id=note_id)
+			note.delete()
+			return JsonResponse({'success':True})
+		else:
+			session = request.session
+			del session['notes'][str(group_id)][str(note_id)]
+			session.modified = True
+
+			return JsonResponse({'success':True})
+
+#####################################################################
+##########################   G R O U P S   ##########################
+#####################################################################
+
+def create_group(request):
+	user = request.user
+	if request.method == 'POST' :
+		title = json.loads(request.body)
+		if not user.is_anonymous :
+			group = NoteGroupModel(user = user, title = title)
+			group.save()
+			return JsonResponse({'success':True, 'groupId':group.id})
+		else:
+			session = request.session
+			group_id = session['group_id']
+			d_group = {'id' : group_id ,'title':title }
+			session['group_id'] = str(int(session['group_id']) + 1)
+			session['groups'][group_id] = d_group
+			session['notes'][group_id] = {}
+			session.modified = True
+			return JsonResponse({'success':True, 'groupId':d_group['id']})
+		
+def read_group(request,group_id):
+	if request.method == 'POST' :
+		user = request.user
+		if not user.is_anonymous :
+			group = NoteGroupModel.objects.get(user = user, id = group_id)
+			notes = NoteModel.objects.filter(group_id = group.id)
+			l_d_notes = serialize_notes(notes)
+			return JsonResponse({'notes':l_d_notes})
+		else:
+			# TODO : ASK => NEEDS SAFE = FALSE TO SEND LIST => ONLY DICT WORKS
+			l_d_notes = list(request.session['notes'][str(group_id)].values())
+			return JsonResponse({'notes':l_d_notes})
 
 
+def update_group(request,group_id):
+	if request.method == 'POST' :
+		user = request.user
+		title = json.loads(request.body)
+		if not user.is_anonymous :
+			group = NoteGroupModel.objects.get(id=group_id)
+			group.title = title
+			group.save()
+		else:
+			session = request.session
+			group = session['groups'][str(group_id)]
+			group['title'] = title
+			session.modified = True
+		
+		return JsonResponse({'success':True})
 
+def delete_group(request,group_id):
+	user = request.user
+	if request.method == 'POST' :
+		if not user.is_anonymous :
+			NoteGroupModel.objects.get(id=group_id).delete()
+			return JsonResponse({'success':True})
+		else:
+			session = request.session
+			del session['groups'][str(group_id)]
+			session.modified = True
+			return JsonResponse({'success':True})
+
+
+#####################################################################
+###########################   U T I L S   ###########################
+#####################################################################
 
 def serialize_notes(notes):
 	l_fields = ['id','title','text','color_id']
@@ -99,7 +190,6 @@ def serialize_notes(notes):
 # def snake_to_camel(*d_objs):
 # 	s2c = lambda str_obj : s2c_pat.sub( lambda x: x.group(1).upper(),str_obj)
 # 	return [ dict(s2c(str(d_obj))) for d_obj in d_objs ]
-
 
 
 def pprint(*x):

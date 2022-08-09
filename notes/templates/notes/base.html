@@ -40,7 +40,14 @@
 
   <div class="main-container">
 
-    <div id="drawer" class="drawer"></div>
+    <div id="drawer" class="drawer">
+      <div id="group-ph" class="note-group">
+        <input type="text" placeholder="Enter group title" onkeyup="onKeyUpGroupInput()"
+          onkeydown="onKeyDownGroupInput(event)">
+        <i class="material-icons btn-group-add" onclick="onClickAddGroup()">&#xe145</i>
+      </div>
+      <div id="drawer-scroll"></div>
+    </div>
 
     {% block content %}
 
@@ -49,36 +56,92 @@
 
 </body>
 
+<script>
+  const csrftoken = "{{ csrf_token }}";
+  const currentUrl = "{{ request.get_full_path }}";
+  const user = "{{request.user}}";
+</script>
+
 <script src="{% static 'notes/js/drawer.js' %}"></script>
+<script src="{% static 'notes/js/drawerCallbacks.js' %}"></script>
 <script src="{% static 'notes/js/navbar.js' %}"></script>
 
 <script type="text/javascript">
 
   /*   I N I T   */
+
   const noteGroups = JSON.parse("{{ noteGroups|escapejs }}");
 
   noteGroups.forEach(noteGroup => {
     createNoteGroup(noteGroup.id, noteGroup.title);
   });
 
-  currNoteGroup = drawer.firstChild;
+  currNoteGroup = drawerScroll.firstChild;
+
+  if (currNoteGroup == null) {
+    setNotePHDisplay(false);
+  }
 
   /*   D R A W E R   C A L L B A C K S   */
 
-  onNoteGroupSelected(noteGroupId => {
-    readGroupRequest(noteGroupId, noteGroup => {
+  //   C R E A T E
+  onCreateNoteGroup(groupTitle => {
+    createGroupRequest(groupTitle, response => {
+      if (response.success) {
+        const group = createNoteGroup(response.groupId, groupTitle);
+        clearGroupPH();
+        // False prevents from trigger read notes callback on new group.
+        selectGroup(group, false);
+        if (drawerScroll.children.length === 1) {
+          setNotePHDisplay(true);
+        }
+      }
+    });
+  });
+
+  //   R E A D
+  onSelectNoteGroup(groupId => {
+    readGroupRequest(groupId, response => {
       clearNoteElements();
-      addNotesElement(noteGroup.notes);
+      addNotesElement(response.notes);
     });
   });
 
 
-  onNoteGroupDelete(noteGroupId => {
-    console.log(`Delete Note Group ID : ${noteGroupId}`);
+  //   U P D A T E
+  onUpdateGroup((groupId, groupTitle) => {
+    updateGroupRequest(groupId, groupTitle, response => {
+      if (response.success) {
+        navTitle.innerHTML = groupTitle;
+        // TODO : Future Data Saving Ack for User.
+        // console.log("UPDATE SUCCESS !");
+      }
+    });
   });
 
-  /*   D E B U G   P U R P O S E   */
 
+  //   D E L E T E
+  onDeleteGroup((groupId, groupIdx) => {
+    deleteGroupRequest(groupId, response => {
+      if (response.success) {
+        clearNoteElements();
+        deleteNoteGroup(groupId);
+        if (drawerScroll.children.length === 0) {
+          setNotePHDisplay(false);
+        } else {
+          selectGroup(drawerScroll.firstChild);
+        }
+      }
+    });
+  });
+
+  /*   F U N C T I O N S   */
+
+  function isUserAnonymous() {
+    return user === "AnonymousUser";
+  }
+
+  /*   D E B U G   P U R P O S E   */
   toggleDrawer();
 </script>
 

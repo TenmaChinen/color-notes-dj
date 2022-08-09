@@ -19,6 +19,7 @@
 
 html{
   padding: 0.1px;
+  overflow-y: hidden;
 }
 
 body{
@@ -27,6 +28,13 @@ body{
   background-color:white;
   /* background-color: blueviolet; */
   height: 100vh;
+  overflow-y: hidden;
+}
+
+a::selection,
+input::selection,
+span::selection{
+  background-color: rgb(100,100,100,0.1);
 }
 
 /* MAIN CONTAINER */

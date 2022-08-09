@@ -2,31 +2,32 @@
 .drawer{
   width: 250px;
   height: 100%;
-  box-shadow: 3px 4px 10px -4px rgba(0, 0, 0, 0.1);
-  background-color: rgb(255, 253, 210);
+  box-shadow: 5px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgb(250, 247, 183);
   z-index: 1;
 }
 
 /*   D R A W E R   */
 
 /*   I N P U T   G R O U P   */
-.drawer .note-group{
+.note-group{
   display: flex;
   align-items: center;
   border-bottom: 1px solid rgb(205, 202, 191);
+  position: relative;
 }
 
-.drawer .note-group:hover{
+.note-group:hover{
   background-color: rgb(220,220,220,0.2);
 }
 /*   I N P U T   G R O U P   */
 
 /*   I N P U T   G R O U P   I N P U T   */
 
-.drawer .note-group input{
+.note-group input{
   border: none;
   background: none;
-  font-size: 20px;
+  font-size: 24px;
   width: 100%;
   padding: 10px;
   outline: none;
@@ -35,39 +36,54 @@
   color: rgb(192, 173, 138);
   font-weight: bolder;
 }
+
+#group-ph input::placeholder{
+  color: rgb(177, 169, 153);
+}
+
+#group-ph input:focus::placeholder{
+  color: transparent;
+}
+
+
 /*   I N P U T   G R O U P   I N P U T   */
 
-/*   I N P U T   G R O U P   D R O P   B T N   */
+/*   I N P U T   G R O U P   I C O N   B U T T O N S   */
 
-.drawer .note-group .btn-options{
+.note-group i{
   font-size: 25px;
   color: rgb(190, 190, 165);
-  opacity: 0;
-  transition: opacity ease-in-out 0.3s;
   background-color: none;
   cursor: pointer;
   outline: none;
 }
 
-.drawer .note-group:hover .btn-options{
+.note-group .btn-group-drop{
+  opacity: 0;
+  transition: opacity ease-in-out 0.3s;
+}
+
+.note-group:hover .btn-group-drop{
   opacity: 1;
 }
 
-/*   I N P U T   G R O U P   D R O P   B T N   */
+.note-group > .btn-group-save{
+  margin-right: 5px;
+}
+
+.note-group > .btn-group-save:hover{
+  color: rgb(156, 156, 121);
+}
+
+/*   I N P U T   G R O U P   I C O N   B U T T O N S   */
 
 /*   I N P U T   G R O U P   D R O P D O W N   M E N U   */
 
-.drop-group{
-  position: relative;
-  box-sizing: border-box;
-}
-
-
-.drop-group > .drop-menu{
+.note-group .drop-menu{
   display: none;
   flex-direction: column;
   position: absolute;
-  top: -5px;
+  top: 0px;
   right: 0px;
   width: 100px;
   transform: translateX(100%);
@@ -77,9 +93,10 @@
   box-sizing: border-box;
   z-index: 100;
   outline: none;
+  box-shadow: 1px 1px 10px gray;
 }
 
-.drop-group .drop-menu > span{
+.note-group .drop-menu > span{
   box-sizing: border-box;
   padding: 1px;
   color: white;
@@ -90,7 +107,7 @@
   cursor: pointer;
 }
 
-.drop-group .drop-menu > span:hover{
+.note-group .drop-menu > span:hover{
   background-color: rgb(120, 120, 120);
 }
 

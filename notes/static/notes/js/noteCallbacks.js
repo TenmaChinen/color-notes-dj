@@ -40,7 +40,7 @@ function onColorSelected(colorId, noteId) {
   setNoteColor(noteId, colorId);
   if (noteId != "note-ph") {
     if (onNoteUpdateCallback) {
-      onNoteUpdateCallback( getNoteGroupId(), noteId, "color");
+      onNoteUpdateCallback(getNoteGroupId(), noteId, "color");
     }
   }
 }
@@ -48,14 +48,14 @@ function onColorSelected(colorId, noteId) {
 
 function onClickDeleteNote(noteId) {
   if (onNoteDeleteCallback) {
-    onNoteDeleteCallback(getNoteGroupId(),noteId);
+    onNoteDeleteCallback(getNoteGroupId(), noteId);
   }
 }
 
 
 function addNewNote() {
   const noteData = getNoteData("note-ph", false);
-  if( onNoteCreateCallback){
-    onNoteCreateCallback(getNoteGroupId(),noteData);
+  if (onNoteCreateCallback) {
+    onNoteCreateCallback(getNoteGroupId(), noteData);
   }
 }
