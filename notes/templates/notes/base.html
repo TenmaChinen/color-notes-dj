@@ -9,9 +9,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Color Notes</title>
 
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
-  <!-- <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
   <link rel="stylesheet" type="text/css" href="{% static 'notes/css/base.css' %}">
@@ -39,6 +36,28 @@
   </div>
 
   <div class="main-container">
+
+    <!-- <div id="empty-message">
+      <img class="logo" width="100px" height="100px" src="{% static 'notes/images/logo_bw.svg' %}" alt="Logo">
+      <h2 class="instructions">Create a group to start creating notes</h2>
+      <h3>Shortcuts</h3>
+      <div class="shortcuts-box">
+        <h3 class="shortcuts-title">Groups</h3>
+        <div class="shortcuts">
+          <h4 class="first">Edit Group Title :</h4>
+          <h4><strong>Double Click</strong> on group title</h4>
+          <h4 class="first">End Group Edition :</h4>
+          <h4>Press <strong>Enter</strong></h4>
+        </div>
+        <h3 class="shortcuts-title">Notes</h3>
+        <div class="shortcuts">
+          <h4 class="first">Add new note :</h4>
+          <h4>Press <strong>Control</strong> + <strong>Enter</strong></h4>
+          <h4 class="first">End Group Edition :</h4>
+          <h4>Press <strong>Enter</strong></h4>
+        </div>
+      </div>
+    </div> -->
 
     <div id="drawer" class="drawer">
       <div id="group-ph" class="note-group">
@@ -80,6 +99,10 @@
 
   if (currNoteGroup == null) {
     setNotePHDisplay(false);
+    setEmptyMessageVisibility(true);
+  } else {
+    setEmptyMessageVisibility(false);
+    selectGroup(currNoteGroup);
   }
 
   /*   D R A W E R   C A L L B A C K S   */
@@ -90,9 +113,10 @@
       if (response.success) {
         const group = createNoteGroup(response.groupId, groupTitle);
         clearGroupPH();
-        // False prevents from trigger read notes callback on new group.
-        selectGroup(group, false);
+        clearNoteElements();
+        selectGroup(group);
         if (drawerScroll.children.length === 1) {
+          setEmptyMessageVisibility(false);
           setNotePHDisplay(true);
         }
       }
@@ -131,14 +155,16 @@
         } else {
           selectGroup(drawerScroll.firstChild);
         }
+        navTitle.innerHTML = "COLOR NOTES";
       }
     });
   });
 
   /*   F U N C T I O N S   */
+  // const emptyMessage = document.getElementById("empty-message");
 
-  function isUserAnonymous() {
-    return user === "AnonymousUser";
+  function setEmptyMessageVisibility(state) {
+    // emptyMessage.style.setProperty("display", state ? "inline-block" : "none");
   }
 
   /*   D E B U G   P U R P O S E   */

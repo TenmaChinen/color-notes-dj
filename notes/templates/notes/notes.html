@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notes.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/menucolor.css' %}">
 
-<!-- TODO : DISABLE TRIGGERS TO DATABASE IF USER IS ANONYMOUS -->
-
 <div id="notes-container" class="notes-container">
   {% for note in firstNoteGroup.notes reversed %}
   <div id="note-{{note.id}}" class="note">
@@ -46,7 +44,7 @@
   /*   N O T E   P L A C E   H O L D E R   */
 
   const notePH = createNotePH();
-  
+
   /*   N O T E   C A L L B A C K   */
 
   onCreateNote((groupId, noteData) => {
@@ -54,6 +52,8 @@
       if (response.success) {
         noteData.id = response.newNoteId;
         addNoteElement(noteData);
+        setNoteColor("note-ph", 0);
+        clearNotePHContent();
       }
     });
   });
@@ -63,7 +63,7 @@
   });
 
   onDeleteNote((noteGroupId, noteId) => {
-    deleteNoteRequest(noteGroupId,noteId, response => {
+    deleteNoteRequest(noteGroupId, noteId, response => {
       if (response.success) {
         notesContainer.removeChild(document.getElementById(noteId));
       }

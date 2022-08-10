@@ -45,16 +45,17 @@ function clearGroupPH() {
 }
 
 
-function selectGroup(noteGroup,callCallback=true) {
+function selectGroup(noteGroup,triggerCallback=true) {
   const groupInput = noteGroup.querySelector("input");
+  noteGroup.style.setProperty("background-color", "rgb(200,200,200,0.2)");
+  navTitle.innerHTML = groupInput.value;
+  
   if (noteGroup != currNoteGroup) {
-    noteGroup.style.setProperty("background-color", "rgb(200,200,200,0.2)");
-    navTitle.innerHTML = groupInput.value;
     if (currNoteGroup !== null) {
-      currNoteGroup.style.setProperty("background-color", null);
+currNoteGroup.style.setProperty("background-color", null);
     }
     currNoteGroup = noteGroup;
-    if (callCallback) onSelectGroupCallback(noteGroup.id);
+    if (onSelectGroupCallback && triggerCallback) onSelectGroupCallback(noteGroup.id);
   }
 }
 

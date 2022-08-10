@@ -2,8 +2,6 @@ const notesContainer = document.getElementById("notes-container");
 
 /*   F U N C T I O N S   */
 
-// Function depending on menuColor.js
-
 function addNotesElement(notesData) {
   notesData.map(addNoteElement);
 }
@@ -27,7 +25,6 @@ function createNotePH() {
   notesContainer.prepend(notePH);
   setNoteColor(noteData.id, noteData.color_id);
   notePH.innerHTML += `<i class="material-icons btn-add" role="button" onclick="addNewNote()">&#xe145</i>`;
-  // notePH.innerHTML += `<i class="material-icons btn-add" role="button" onclick="addNewNote('${parent.parentElement.id}')">&#xe145</i>`;
   return notePH;
 }
 
@@ -43,7 +40,7 @@ function createNoteElement(noteData) {
   note.classList.add("note");
   note.id = noteData.id;
   note.innerHTML = `
-    <input class="input title" name = "title" placeholder="Title" value = "${noteData.title}" maxlength="100" autocomplete="off" onkeyup="delayTrigger(event,'${noteData.id}')"></input>
+    <input class="input title" name = "title" placeholder="Title" value = "${noteData.title}" maxlength="50" autocomplete="off" onkeyup="delayTrigger(event,'${noteData.id}')"></input>
     <div class="text-box">
       <div class="scroll-box">
         <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text" onkeyup="delayTrigger(event,'${noteData.id}')">${noteData.text}</span>

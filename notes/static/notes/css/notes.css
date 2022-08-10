@@ -13,15 +13,19 @@
 
 .notes-container{
   background-color: rgb(255, 253, 210);
-  /* background-color: blue; */
-  color: rgb(255, 255, 255);
+  /* background-color: cadetblue; */
   /* height: 100%; */
-  padding: 40px 30px 1000px 10px; /* T R B L */
   flex-grow: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 5;
+  box-sizing: border-box;
   overflow-y: auto;
+}
+
+.notes-container > :last-child{
+  margin-bottom: 200px;
 }
 
 /*   N O T E S   C O N T A I N E R   */
@@ -56,15 +60,16 @@
 .note{
   /* background-color: var(--note-bg); */
   margin-top: 20px;
+  margin-right: 20px;
   box-shadow: 2px 2px 5px rgb(190, 190, 190);
   border-radius: 5px;
   width: 600px;
   position: relative;
 }
 
-.note:focus{
+/* .note:focus{
   outline: none;
-}
+} */
 
 /* N O T E */
 
@@ -166,8 +171,9 @@
   padding: 10px;
   box-sizing: border-box;
   position: absolute;
+  /* right: -40px; */
   right: -55px;
-  top:0px;
+  top:5px;
   display: grid;
   grid-template-rows: 30px 1fr;
   justify-content: space-around;

@@ -1,74 +1,136 @@
-:root{
-  --bg:white;
+:root {
+  --bg: white;
 }
 
-
-/* GENERAL STYLES */
+/*   G E N E R A L   S T Y L E S   */
 
 @font-face {
-	font-family: Roboto-Light;
-	src: url("../fonts/Roboto-Light.ttf");
+  font-family: Roboto-Light;
+  src: url("../fonts/Roboto-Light.ttf");
 }
 
-*{
-  /* font-family: Roboto; */
+* {
   font-family: Roboto-Light;
   margin: 0;
   padding: 0;
 }
 
-html{
+html {
   padding: 0.1px;
-  overflow-y: hidden;
 }
 
-body{
-  padding: 0.1px;
+body {
   box-sizing: border-box;
-  background-color:white;
-  /* background-color: blueviolet; */
+  /* background-color:rgb(96, 255, 109); */
   height: 100vh;
-  overflow-y: hidden;
 }
 
 a::selection,
 input::selection,
-span::selection{
-  background-color: rgb(100,100,100,0.1);
+span::selection {
+  background-color: rgb(100, 100, 100, 0.1);
 }
 
 /* MAIN CONTAINER */
 
-.main-container{
+.main-container {
+  padding: 0.1px;
   position: relative;
   height: calc(100% - var(--navbar-height));
   display: flex;
   flex-direction: row;
-  padding: 0.1px;
-  background-color: black;
-  /* background-color: beige; */
+  /* background-color: red; */
   z-index: 0;
   overflow-y: hidden;
 }
 
 /* MAIN CONTAINER */
 
-
 /* GENERAL */
+
+/*   E M P T Y   M E S S A G E   */
+#empty-message {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 600px;
+  /* height: 60%; */
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgb(192, 172, 61);
+  font-weight: bold;
+  z-index: 10;
+  align-items: center;
+  justify-content: space-around;
+}
+
+#empty-message>.logo {
+  align-self: center;
+}
+
+#empty-message>.instructions {
+  align-self: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.shortcuts-box {
+  width: 80%;
+  padding: 10px;
+  /* border: 1px solid gray; */
+  border-radius: 10px;
+}
+
+.shortcuts-title {
+  /* width: 100px; */
+  /* text-align: end; */
+}
+
+.shortcuts {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  width: 100%;
+  display: grid;
+  font-size: 16px;
+  grid-template-columns: 7fr 10fr;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.shortcuts>.first {
+  text-align: end;
+}
+
+.shortcuts strong{
+  background-color: rgb(192, 172, 61);;
+  border-radius: 4px;
+  color: white;
+  padding: 3px;
+  font-weight: bolder;
+}
+
+
+/*   E M P T Y   M E S S A G E   */
 
 /* Avoid Select Icons */
 
-a{
+a {
   text-decoration-line: none;
   font-weight: bold;
   margin: 0;
   padding: 0;
 }
 
-i{
-  user-select: none; /* supported by Chrome and Opera */
- -webkit-user-select: none; /* Safari */
- -khtml-user-select: none; /* Konqueror HTML */
- -moz-user-select: none; /* Firefox */
- -ms-user-select: none; /* Internet Explorer/Edge */
+i {
+  user-select: none;
+  /* supported by Chrome and Opera */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
 }

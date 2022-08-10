@@ -33,6 +33,14 @@ function setNotePHVisibility(visible) {
   }
 }
 
+
+function clearNotePHContent(){
+  titlePH.value = "";
+  textareaPH.innerHTML = "";
+  
+  setNotePHVisibility(false);
+}
+
 /*   E V E N T S   */
 
 function onPressNotePH() {
