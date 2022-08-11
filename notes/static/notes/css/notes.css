@@ -1,17 +1,16 @@
-:root{
+:root {
   --title-size: 22px;
   --textarea-size: 20px;
-  --note-bg:rgb(165, 235, 118);
+  --icon-size:22px;
+  --note-bg: rgb(165, 235, 118);
   --icon-bg: rgb(70, 188, 90);
-  --sel-bg:rgb(122, 217, 141);
+  --sel-bg: rgb(122, 217, 141);
   --text-fg: rgb(21, 108, 30);
 }
 
-
-
 /*   N O T E S   C O N T A I N E R   */
 
-.notes-container{
+.notes-container {
   background-color: rgb(255, 253, 210);
   /* background-color: cadetblue; */
   /* height: 100%; */
@@ -24,7 +23,7 @@
   overflow-y: auto;
 }
 
-.notes-container > :last-child{
+.notes-container> :last-child {
   margin-bottom: 200px;
 }
 
@@ -32,38 +31,39 @@
 
 /*   N O T E   P H   */
 
-#note-ph{
+#note-ph {
   margin-bottom: 20px;
   position: relative;
 }
 
-#note-ph>.btn-add{
-  color: rgba(46, 174, 72, 0.62);
+#btn-add-ph {
+  color: rgb(144, 245, 164);
   font-weight: bold;
   position: absolute;
-  right:-10px;
-  bottom:-25px;
+  right: 10px;
+  bottom: -20px;
   font-size: 40px;
-  background-color: rgba(159, 255, 74, 0.584);
+  background-color: rgb(120, 200, 50);
   border-radius: 25px;
   cursor: pointer;
   width: fit-content;
   height: fit-content;
+  box-shadow: 1px 1px 10px rgba(50, 50, 50, 0.5);
   padding: 5px;
-  /* visibility: hidden; */
 }
 
 /*   N O T E   P H   */
 
 /* N O T E */
 
-.note{
-  /* background-color: var(--note-bg); */
+.note {
   margin-top: 20px;
-  margin-right: 20px;
+
   box-shadow: 2px 2px 5px rgb(190, 190, 190);
   border-radius: 5px;
-  width: 600px;
+  box-sizing: border-box;
+  width: 75%;
+  max-width: 600px;
   position: relative;
 }
 
@@ -75,8 +75,8 @@
 
 /*   T I T L E   &   T E X T A R E A   */
 
-.note > .title,
-.note .textarea{
+.note>.title,
+.note .textarea {
   box-sizing: border-box;
   border: none;
   background: transparent;
@@ -84,8 +84,8 @@
   color: var(--text-fg);
 }
 
-.note > .title::selection,
-.note .textarea::selection{
+.note>.title::selection,
+.note .textarea::selection {
   background: rgba(97, 97, 97, 0.2);
 }
 
@@ -93,7 +93,7 @@
 
 /* T I T L E */
 
-.note > .title{
+.note>.title {
   font-size: var(--title-size);
   font-weight: bolder;
   width: 100%;
@@ -105,23 +105,25 @@
 
 /* T E X T A R E A */
 
-.note .textarea{
+.note .textarea {
   font-size: var(--textarea-size);
   text-align: justify;
   display: block;
   font-weight: 500;
-  padding: 0px 20px 10px 20px; /* T R B L */
+  padding: 0px 20px 10px 20px;
+  /* T R B L */
 }
 
-.note .text-box{
-  padding: 10px 0px; /* V H */
+.note .text-box {
+  padding: 10px 0px;
+  /* V H */
   border-top: 2px solid;
   display: flex;
   flex-direction: row;
   position: relative;
 }
 
-.note .scroll-box{
+.note .scroll-box {
   width: 100%;
   min-height: 50px;
   max-height: 200px;
@@ -140,23 +142,23 @@
 /* Track */
 .scroll-box::-webkit-scrollbar-track {
   border-radius: 6px;
-  border-width:0px;
+  border-width: 0px;
 }
 
 /* Handle */
 .scroll-box::-webkit-scrollbar-thumb {
-  background-color: #65656561; 
+  background-color: #65656561;
   border-radius: 6px;
   visibility: hidden;
 }
 
 /* Handle on hover */
 .scroll-box::-webkit-scrollbar-thumb:hover {
-  background-color: #3b3b3b63; 
+  background-color: #3b3b3b63;
   visibility: visible;
 }
 
-.text-box:hover .scroll-box::-webkit-scrollbar-thumb{
+.text-box:hover .scroll-box::-webkit-scrollbar-thumb {
   visibility: visible;
 }
 
@@ -165,15 +167,14 @@
 
 /* T O O L S   B O X */
 
-.note .tool-box{
+.note .tool-box {
   height: 100%;
   /* background-color: var(--note-bg); */
-  padding: 10px;
+  padding: 10px 0px;
   box-sizing: border-box;
   position: absolute;
-  /* right: -40px; */
-  right: -55px;
-  top:5px;
+  right: -40px;
+  top: 0px;
   display: grid;
   grid-template-rows: 30px 1fr;
   justify-content: space-around;
@@ -183,14 +184,14 @@
   visibility: hidden;
 }
 
-.note:hover .tool-box{
+.note:hover .tool-box {
   opacity: 1;
   visibility: visible;
 }
 
-.note .tool-box i{
+.note .tool-box i {
   display: block;
-  font-size: 22px;
+  font-size: var(--icon-size);
   color: var(--icon-bg);
   cursor: pointer;
   width: fit-content;
@@ -202,3 +203,22 @@
 }
 
 /* T O O L S   B O X */
+
+
+/*   M E D I A   Q U E R I E S   */
+
+/*   S M A L L   D E V I C E   */
+@media screen and (max-width : 450px) {
+
+  :root {
+    --title-size: 18px;
+    --textarea-size: 20px;
+    --icon-size:18px;
+  }
+  .note .tool-box {
+    right: -35px;
+  }
+  #btn-add-ph{
+    font-size: 26px;
+  }
+}

@@ -6,8 +6,9 @@ const textBoxPH = notePH.querySelector(".text-box");
 const toolBoxPH = notePH.querySelector(".tool-box");
 const dropdownPH = notePH.querySelector(".dropdown");
 const btnClosePH = notePH.querySelector(".btn-close");
-const btnAddPH = notePH.querySelector(".btn-add");
+const btnAddPH = document.getElementById("btn-add-ph");
 
+setNoteColor("note-ph",0);
 setNotePHVisibility(false);
 
 titlePH.setAttribute("onclick", "onPressNotePH()");

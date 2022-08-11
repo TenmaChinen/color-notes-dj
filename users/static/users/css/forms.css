@@ -1,48 +1,53 @@
-*{
-	margin: 0;
-	padding: 0;
-}
-
-:root{
+:root {
 	/* --form-fg: #bc8a67; */
 	/* --form-bg: #ffd8b9; */
 	/* --btn-bg:#edbc8d;
 	--btn-bg-hover:#e0b288; */
-	--btn-bg:#e4e4a1;
-	--btn-bg-hover:#c3c37b;
+	--btn-bg: #e4e4a1;
+	--btn-bg-hover: #c3c37b;
 	--form-fg: #b5b567;
 	--form-bg: #f6f6b6;
 	--placeholder-fg: #4545457e;
 	--form-footer-bg: #dbdb9b;
-	--title-size:35px;
-	--label-size:18px;
-	--input-size:20px;
+	--title-size: 35px;
+	--label-size: 18px;
+	--input-size: 20px;
 	--icon-size: 30px;
 	--btn-submit-size: 26px;
 	--txt-footer: 20px;
-}	
+}
 
+* {
+	margin: 0;
+	padding: 0;
+}
 
-.form-container{
+.form-container {
 	display: block;
 	color: var(--form-fg);
 	font-weight: bold;
 	align-self: center;
 	border-radius: 10px;
 	background-color: var(--form-bg);
-	width: 500px;
+	width: 90%;
+	max-width: 500px;
 	margin-top: 50px;
 	margin-left: auto;
 	margin-right: auto;
-	outline: 1px solid gray;
+	margin-bottom: 100px;
+	outline: 1px solid rgb(195, 192, 144);
 	padding: 0.1px;
 }
 
-.form-container form{
-	margin: 30px;
+.form-container form {
+	margin-left: 8%;
+	margin-right: 8%;
+	margin-top: 5%;
+	margin-bottom: 5%;
+	/* margin: 30px; */
 }
 
-.form-logo{
+.form-logo {
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
@@ -55,30 +60,37 @@
 	outline: 1px solid rgb(170, 170, 170);
 }
 
-.form-title{
+.form-title {
+	margin-left: 5%;
+	margin-right: 5%;
 	font-size: var(--title-size);
 	text-align: center;
 	margin-top: 20px;
 	color: var(--title-fg);
+	text-align: center;
 }
 
-.form-group{
+.form-group {
 	margin-bottom: 30px;
-	margin-top: 30px;
+	/* margin-top: 5%; */
 }
 
-.form-group label{
-	font-size:var(--label-size);
-	display:inline-block;
+.form-group label {
+	font-size: var(--label-size);
+	display: inline-block;
 	margin-bottom: 8px;
 	margin-top: 20px;
 }
 
-.form-group input{
+.form-group label:first-child{
+	margin-top: 0px;
+}
+
+.form-group input {
 	font-size: var(--input-size);
 }
 
-input{
+input {
 	border-style: none;
 	background: none;
 	color: var(--form-fg);
@@ -87,27 +99,29 @@ input{
 	width: 100%;
 }
 
-input::placeholder{
+input::placeholder {
 	color: var(--placeholder-fg);
 }
 
-input:focus{
+input:focus {
 	background: none;
 	width: 100%;
 	outline: none;
 }
 
-.box-icon-input{
+.box-icon-input {
 	display: flex;
 	border: 1px solid var(--form-fg);
 	border-radius: 10px;
 	width: 100%;
 	padding: 10px;
 	box-sizing: border-box;
+	flex-direction: row;
+	align-items: center;
 }
 
-.box-icon-input i{
-	font-size: var(--icon-size) ;
+.box-icon-input i {
+	font-size: var(--icon-size);
 	margin: 0px 20px 0px 5px;
 	padding-right: 10px;
 	color: var(--form-fg);
@@ -115,7 +129,7 @@ input:focus{
 }
 
 
-.btn-submit{
+.btn-submit {
 	font-size: var(--btn-submit-size);
 	font-weight: bold;
 	color: var(--form-fg);
@@ -126,22 +140,22 @@ input:focus{
 	width: 100%;
 }
 
-.btn-submit:hover{
+.btn-submit:hover {
 	background-color: var(--btn-bg-hover);
 }
 
 
-input:-webkit-autofill{
-  -webkit-text-fill-color: white;
-  transition: background-color 5000s ease-in-out 0s;
+input:-webkit-autofill {
+	-webkit-text-fill-color: white;
+	transition: background-color 5000s ease-in-out 0s;
 }
 
 input::-ms-reveal {
-  filter: invert(50%);
+	filter: invert(50%);
 }
 
 
-.form-footer{
+.form-footer {
 	background: var(--form-footer-bg);
 	padding: 30px 0px;
 	font-size: var(--txt-footer);
@@ -150,11 +164,48 @@ input::-ms-reveal {
 	border-radius: 0px 0px 10px 10px;
 }
 
-.form-footer p{
+.form-footer p {
 	color: var(--form-fg);
 }
 
-.form-footer a{
+.form-footer a {
 	color: white;
 	text-decoration-line: none;
+}
+
+
+/*   M E D I A   Q U E R I E S   */
+
+/*   S M A L L   D E V I C E   */
+@media screen and (max-width : 450px) {
+	:root {
+		--title-size: 22px;
+		--label-size: 14px;
+		--input-size: 14px;
+		--icon-size: 20px;
+		--btn-submit-size: 18px;
+		--txt-footer: 14px;
+	}
+
+	.form-group{
+		margin-bottom: 20px;
+	}
+
+	.form-group label {
+		margin-bottom: 6px;
+		margin-top: 10px;
+	}
+
+	.box-icon-input {
+		padding: 3px;
+	}
+
+	.form-logo {
+		width: 60px;
+		height: 60px;
+	}
+
+	.form-footer {
+		padding: 15px 0px;
+	}
 }

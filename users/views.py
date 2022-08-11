@@ -15,7 +15,7 @@ def register_view(request):
       new_user = auth.authenticate( username=data['username'], password=data['password1'])
       if new_user is not None:
         auth.login(request, new_user)
-      return redirect('/notes')
+      return redirect('/')
 
   form = NewUserForm()
   context = {'form' : form}

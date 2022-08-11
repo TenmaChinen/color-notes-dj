@@ -4,11 +4,11 @@
 
 
 /* GENERAL STYLES */
-
+/* 
 @font-face {
 	font-family: Roboto-Light;
 	src: url("../fonts/Roboto-Light.ttf");
-}
+} */
 
 *{
   /* font-family: Roboto; */
@@ -23,8 +23,8 @@ html{
 
 body{
   padding: 0.1px;
-  background-color:white;
-  /* background-color: blueviolet; */
+  /* background-color:white; */
+  background-color: blueviolet;
   height: 100vh;
 }
 
@@ -34,9 +34,9 @@ body{
 
 .main-container{
   padding: 0.1px;
-  background-color: beige;
-  min-height: 800px;
-  height: calc(100% - var(--navbar-height));
+  background-color: rgb(255, 253, 210);
+  height: 100%;
+  overflow-y: auto;
 }
 
 /* MAIN CONTAINER */

@@ -10,26 +10,32 @@ const colors = {
 };
 
 function setNoteColor(noteId, colorId) {
-  const color50 = colors[colorId];
-  const color35 = lightenRGBColor(color50, -20);
-  const color20 = lightenRGBColor(color50, -50);
+  const color100 = colors[colorId];
+  const color80 = lightenRGBColor(color100, -20);
+  const color50 = lightenRGBColor(color100, -50);
 
   const note = document.getElementById(noteId);
-  note.style.setProperty("background-color", color50);
+  note.style.setProperty("background-color", color100);
 
   const inputs = note.querySelectorAll(".input");
   inputs.forEach(input => {
-    input.style.setProperty("color", color20);
+    input.style.setProperty("color", color50);
   });
 
   const icons = note.querySelectorAll(".tool-box i");
   icons.forEach(icon => {
-    icon.style.setProperty("background-color", color50);
-    icon.style.setProperty("color", color20);
+    icon.style.setProperty("background-color", color100);
+    icon.style.setProperty("color", color50);
   });
 
   const textBox = note.querySelector(".text-box");
-  textBox.style.setProperty("border-top-color", color35);
+  textBox.style.setProperty("border-top-color", color80);
+  if ( noteId === "note-ph" ){
+    const color150 = lightenRGBColor(color100, 50);
+    const color105 = lightenRGBColor(color100, 5);
+    btnAddPH.style.setProperty("color",color150);
+    btnAddPH.style.setProperty("background-color",color105);
+  }
 }
 
 

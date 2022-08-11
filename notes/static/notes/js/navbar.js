@@ -13,7 +13,6 @@ const btnLogout = document.getElementById("btn-logout");
 
 function toggleNavTools() {
   const state = navTools.style.getPropertyValue("display") == "none";
-
   navTools.style.setProperty("display", state ? "flex" : "none");
 }
 

@@ -21,14 +21,18 @@
   <nav class="navbar">
     <i id="btn-drawer" class="material-icons btn-drawer" onclick="toggleDrawer()" role="button">&#xe5d2</i>
     <span id="nav-title">COLOR NOTES</span>
+    {% if user.is_authenticated %}
+      <span id="btn-username">{{user.username}}</span>
+    {% endif %}
     <i id="btn-nav-tools" class="material-icons" onclick="toggleNavTools()" role="button">&#xe5d4</i>
   </nav>
 
   <div id="nav-tools">
     {% if user.is_authenticated %}
-    <span class="btn-username">{{user.username}}</span>
-    <a class="btn-logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}">
-      <i class="material-icons">&#xe9ba;</i></a>
+    <a id="btn-logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}">
+      <span>LOGOUT</span>
+      <i class="material-icons">&#xe9ba</i>
+    </a>
     {% else %}
     <a href="{% url 'users:login' %}">LOGIN</a>
     <a class="sign-up" href="{% url 'users:register' %}">SIGN UP</a>

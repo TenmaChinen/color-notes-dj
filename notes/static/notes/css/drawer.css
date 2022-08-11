@@ -31,10 +31,12 @@
   width: 100%;
   padding: 10px;
   outline: none;
-  /* margin: 5px; */
   box-sizing: border-box;
   color: rgb(192, 173, 138);
   font-weight: bolder;
+  white-space: nowrap;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
 }
 
 #group-ph input::placeholder{

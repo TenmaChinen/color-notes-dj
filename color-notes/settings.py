@@ -119,14 +119,20 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = BASE_DIR / 'static'
 STATIC_URL = '/static/'
+
+# This needed to have a global static templates - css - js files.
+STATICFILES_DIRS = [
+    BASE_DIR / 'staticfiles',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# The url to redirec to when the login is successful
+# The url to redirect to when the login is successful
 LOGIN_REDIRECT_URL = 'notes:notes'
 LOGIN_URL = 'users:login'
 

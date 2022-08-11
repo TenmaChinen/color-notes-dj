@@ -22,9 +22,8 @@ function addNotesDropdownOptions() {
 function createNotePH() {
   const noteData = { id: "note-ph", title: "", text: "", color_id: 0 };
   const notePH = createNoteElement(noteData);
+  notePH.innerHTML += `<i id="btn-add-ph" class="material-icons" role="button" onclick="addNewNote()">&#xe145</i>`;
   notesContainer.prepend(notePH);
-  setNoteColor(noteData.id, noteData.color_id);
-  notePH.innerHTML += `<i class="material-icons btn-add" role="button" onclick="addNewNote()">&#xe145</i>`;
   return notePH;
 }
 
