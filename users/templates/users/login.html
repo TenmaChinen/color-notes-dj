@@ -4,22 +4,22 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'users/css/forms.css' %}">
 
-<div class="form-container" method="post">
+<div class="form-container">
 	<a href="{% url 'notes:notes' %}"><img class="form-logo" src="{% static 'users/images/logo.png' %}" alt="Logo"></a>
 	<p class="form-title">Sign in to ColorNotes</p>
-	<form method="post">
+	<form method="post" autocomplete="on">
 		{% csrf_token %}
 		<div class="form-group">
 			<label>Username</label>
 			<div class="box-icon-input">
 				<i class="material-icons">&#xe7fd;</i>
-				<input type="text" name="username" placeholder="Username" maxlength=20 required autofocus>
+				<input type="text" name="username" placeholder="Username" maxlength=20 required autofocus autocomplete="username">
 			</div>
 
 			<label>Password</label>
 			<div class="box-icon-input">
 				<i class="material-icons">&#xe897;</i>
-				<input type="password" name="password" placeholder="Password" minlength=8 maxlength=20 required>
+				<input type="password" name="password" placeholder="Password" minlength=8 maxlength=20 required autocomplete="current-password">
 			</div>
 		</div>
 		<button class="btn-submit" type="submit">Log in</button>

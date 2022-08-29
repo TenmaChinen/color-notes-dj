@@ -1,11 +1,8 @@
-from distutils.command.build_scripts import first_line_re
-import re
 from django.shortcuts import render, HttpResponse
-from django.http import JsonResponse
 from .models import NoteModel, NoteGroupModel
 from django.forms.models import model_to_dict
+from django.http import JsonResponse
 import json
-# import pdb
 
 def create_note(request, group_id):
 
@@ -16,6 +13,7 @@ def create_note(request, group_id):
 			new_note = NoteModel(group_id=group_id, **d_note_data)
 			new_note.save()
 			return JsonResponse({'success': True, 'newNoteId': new_note.id})
+			# If user is Anonymous
 		else:
 			session = request.session
 			note_id = session['note_id']
@@ -25,26 +23,16 @@ def create_note(request, group_id):
 			session.modified = True
 			return JsonResponse({'success': True, 'newNoteId': d_note_data['id']})
 
-
-''' TODO : ADAPT TO SHOW DIFFERENT GROUP_NOTE '''
-
-
 def notes_view(request):
 	user = request.user
 	if not user.is_anonymous:
 		note_groups = NoteGroupModel.objects.filter(user=user)
 		l_d_note_groups = [model_to_dict(
 			note_group, fields=['id', 'title']) for note_group in note_groups]
-		if l_d_note_groups :
-			d_first_group = l_d_note_groups[-1].copy()
-			notes = NoteModel.objects.filter(group=d_first_group['id'])
-			d_first_group['notes'] = serialize_notes(notes)
-		else:
-			d_first_group = {}
 
 	else:
+		# If user is Anonymous
 		session = request.session
-		# if True:
 		if 'groups' not in session:
 			session['note_id'] = '1'
 			session['group_id'] = '1'
@@ -52,17 +40,9 @@ def notes_view(request):
 			session['notes'] = {}
 
 		l_d_note_groups = list(session['groups'].values())
-		if l_d_note_groups:
-			d_first_group = l_d_note_groups[-1].copy()
-			l_d_notes = list(session['notes'].get(
-				d_first_group['id'], {}).values())
-			# pdb.set_trace()
-			d_first_group['notes'] = l_d_notes
-		else:
-			d_first_group = {}
 
 	json_note_groups = json.dumps(l_d_note_groups)
-	context = {'noteGroups': json_note_groups, 'firstNoteGroup': d_first_group}
+	context = {'noteGroups': json_note_groups}
 
 	return render(request, 'notes/notes.html', context)
 
@@ -83,6 +63,7 @@ def update_note(request, group_id, note_id, element_id):
 				note.color_id = note_data['color_id']
 			note.save()
 		else:
+			# If user is Anonymous
 			session = request.session
 			note = session['notes'][str(group_id)][str(note_id)]
 			if element_id == 1 or element_id == 0:
@@ -107,6 +88,7 @@ def delete_note(request, group_id, note_id):
 			note.delete()
 			return JsonResponse({'success': True})
 		else:
+			# If user is Anonymous
 			session = request.session
 			del session['notes'][str(group_id)][str(note_id)]
 			session.modified = True
@@ -127,6 +109,7 @@ def create_group(request):
 			group.save()
 			return JsonResponse({'success': True, 'groupId': group.id})
 		else:
+			# If user is Anonymous
 			session = request.session
 			group_id = session['group_id']
 			d_group = {'id': group_id, 'title': title}
@@ -146,6 +129,7 @@ def read_group(request, group_id):
 			l_d_notes = serialize_notes(notes)
 			return JsonResponse({'notes': l_d_notes})
 		else:
+			# If user is Anonymous
 			# TODO : ASK => NEEDS SAFE = FALSE TO SEND LIST => ONLY DICT WORKS
 			l_d_notes = list(request.session['notes'][str(group_id)].values())
 			return JsonResponse({'notes': l_d_notes})
@@ -160,6 +144,7 @@ def update_group(request, group_id):
 			group.title = title
 			group.save()
 		else:
+			# If user is Anonymous
 			session = request.session
 			group = session['groups'][str(group_id)]
 			group['title'] = title
@@ -175,6 +160,7 @@ def delete_group(request, group_id):
 			NoteGroupModel.objects.get(id=group_id).delete()
 			return JsonResponse({'success': True})
 		else:
+			# If user is Anonymous
 			session = request.session
 			del session['groups'][str(group_id)]
 			session.modified = True
@@ -197,10 +183,3 @@ def serialize_notes(notes):
 # def snake_to_camel(*d_objs):
 # 	s2c = lambda str_obj : s2c_pat.sub( lambda x: x.group(1).upper(),str_obj)
 # 	return [ dict(s2c(str(d_obj))) for d_obj in d_objs ]
-
-
-def pprint(*x):
-
-	print('\n', '#'*40, '\n')
-	print('\t', x)
-	print('\n', '#'*40, '\n')

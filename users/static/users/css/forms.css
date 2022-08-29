@@ -144,12 +144,15 @@ input:focus {
 	background-color: var(--btn-bg-hover);
 }
 
-
-input:-webkit-autofill {
-	-webkit-text-fill-color: white;
+/* Prevent the auto-filler to paste in different color */
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus{
+	-webkit-text-fill-color: var(--form-fg);
 	transition: background-color 5000s ease-in-out 0s;
 }
 
+/* Show Password Color  */
 input::-ms-reveal {
 	filter: invert(50%);
 }
