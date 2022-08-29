@@ -4,34 +4,13 @@
 
 /*   G E N E R A L   S T Y L E S   */
 
-@font-face {
-  font-family: Roboto-Light;
-  src: url("../fonts/Roboto-Light.ttf");
-}
-
-* {
-  font-family: Roboto-Light;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  padding: 0.1px;
-}
-
-body {
-  box-sizing: border-box;
-  /* background-color:rgb(96, 255, 109); */
-  height: 100vh;
-}
-
 a::selection,
 input::selection,
 span::selection {
   background-color: rgb(100, 100, 100, 0.1);
 }
 
-/* MAIN CONTAINER */
+/*   M A I N   C O N T A I N E R   */
 
 .main-container {
   padding: 0.1px;
@@ -44,9 +23,7 @@ span::selection {
   overflow-y: hidden;
 }
 
-/* MAIN CONTAINER */
-
-/* GENERAL */
+/*   M A I N   C O N T A I N E R   */
 
 /*   E M P T Y   M E S S A G E   */
 #empty-message {
@@ -82,10 +59,8 @@ span::selection {
   border-radius: 10px;
 }
 
-.shortcuts-title {
-  /* width: 100px; */
-  /* text-align: end; */
-}
+/* .shortcuts-title {
+} */
 
 .shortcuts {
   margin-top: 5px;
@@ -110,27 +85,4 @@ span::selection {
   font-weight: bolder;
 }
 
-
 /*   E M P T Y   M E S S A G E   */
-
-/* Avoid Select Icons */
-
-a {
-  text-decoration-line: none;
-  font-weight: bold;
-  margin: 0;
-  padding: 0;
-}
-
-i {
-  user-select: none;
-  /* supported by Chrome and Opera */
-  -webkit-user-select: none;
-  /* Safari */
-  -khtml-user-select: none;
-  /* Konqueror HTML */
-  -moz-user-select: none;
-  /* Firefox */
-  -ms-user-select: none;
-  /* Internet Explorer/Edge */
-}

@@ -2,35 +2,7 @@
   --bg:white;
 }
 
-
-/* GENERAL STYLES */
-/* 
-@font-face {
-	font-family: Roboto-Light;
-	src: url("../fonts/Roboto-Light.ttf");
-} */
-
-*{
-  /* font-family: Roboto; */
-  font-family: Roboto-Light;
-  margin: 0;
-  padding: 0;
-}
-
-html{
-  padding: 0.1px;
-}
-
-body{
-  padding: 0.1px;
-  /* background-color:white; */
-  background-color: blueviolet;
-  height: 100vh;
-}
-
-/* GENERAL STYLES */
-
-/* MAIN CONTAINER */
+/*   M A I N   C O N T A I N E R   */
 
 .main-container{
   padding: 0.1px;
@@ -39,16 +11,4 @@ body{
   overflow-y: auto;
 }
 
-/* MAIN CONTAINER */
-
-
-/* GENERAL */
-
-/* Avoid Select Icons */
-i{
-  user-select: none; /* supported by Chrome and Opera */
- -webkit-user-select: none; /* Safari */
- -khtml-user-select: none; /* Konqueror HTML */
- -moz-user-select: none; /* Firefox */
- -ms-user-select: none; /* Internet Explorer/Edge */
-}
+/*   M A I N   C O N T A I N E R   */

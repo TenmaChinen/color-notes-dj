@@ -1,19 +1,28 @@
 
 const navTools = document.getElementById("nav-tools");
+const navToolsSmall = document.getElementById("nav-tools-sm");
 
 const btnNavTools = document.getElementById("btn-nav-tools");
 
 const btnLogin = document.getElementById("btn-login");
 const btnSignup = document.getElementById("btn-sign-up");
 
-const btnUsername = document.getElementById("btn-username");
 const btnLogout = document.getElementById("btn-logout");
 
 /*   F U N C T I O N S   */
 
 function toggleNavTools() {
-  const state = navTools.style.getPropertyValue("display") == "none";
+  const state = !isNavToolsVisible();
   navTools.style.setProperty("display", state ? "flex" : "none");
+}
+
+function isNavToolsVisible(){
+  return navTools.style.getPropertyValue("display") != "none";
+}
+
+function isNavToolsSmallVisible(){
+  const style = getComputedStyle(navToolsSmall);
+  return style.display != "none";
 }
 
 /*   E V E N T S   */

@@ -11,6 +11,7 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+  <link rel="stylesheet" type="text/css" href="{% static 'css/global.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'notes/css/base.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'notes/css/navbar.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'notes/css/drawer.css' %}">
@@ -21,14 +22,17 @@
   <nav class="navbar">
     <i id="btn-drawer" class="material-icons btn-drawer" onclick="toggleDrawer()" role="button">&#xe5d2</i>
     <span id="nav-title">COLOR NOTES</span>
-    {% if user.is_authenticated %}
-      <span id="btn-username">{{user.username}}</span>
-    {% endif %}
-    <i id="btn-nav-tools" class="material-icons" onclick="toggleNavTools()" role="button">&#xe5d4</i>
+    <div id="nav-tools-sm">
+      {% if user.is_authenticated %}
+      <span class="username">{{user.username.0}}</span>
+      {% endif %}
+      <i id="btn-nav-tools" class="material-icons" onclick="toggleNavTools()" role="button">&#xe5d4</i>
+    </div>
   </nav>
 
   <div id="nav-tools">
     {% if user.is_authenticated %}
+    <span class="username">{{user.username}}</span>
     <a id="btn-logout" href="{% url 'users:logout' %}?next={% url 'notes:notes' %}">
       <span>LOGOUT</span>
       <i class="material-icons">&#xe9ba</i>
@@ -41,31 +45,11 @@
 
   <div class="main-container">
 
-    <!-- <div id="empty-message">
-      <img class="logo" width="100px" height="100px" src="{% static 'notes/images/logo_bw.svg' %}" alt="Logo">
-      <h2 class="instructions">Create a group to start creating notes</h2>
-      <h3>Shortcuts</h3>
-      <div class="shortcuts-box">
-        <h3 class="shortcuts-title">Groups</h3>
-        <div class="shortcuts">
-          <h4 class="first">Edit Group Title :</h4>
-          <h4><strong>Double Click</strong> on group title</h4>
-          <h4 class="first">End Group Edition :</h4>
-          <h4>Press <strong>Enter</strong></h4>
-        </div>
-        <h3 class="shortcuts-title">Notes</h3>
-        <div class="shortcuts">
-          <h4 class="first">Add new note :</h4>
-          <h4>Press <strong>Control</strong> + <strong>Enter</strong></h4>
-          <h4 class="first">End Group Edition :</h4>
-          <h4>Press <strong>Enter</strong></h4>
-        </div>
-      </div>
-    </div> -->
+    {# TODO {% include 'tips.html' %} #}
 
     <div id="drawer" class="drawer">
       <div id="group-ph" class="note-group">
-        <input type="text" placeholder="Enter group title" onkeyup="onKeyUpGroupInput()"
+        <input type="text" maxlength="18" placeholder="Enter group title" onkeyup="onKeyUpGroupInput()"
           onkeydown="onKeyDownGroupInput(event)">
         <i class="material-icons btn-group-add" onclick="onClickAddGroup()">&#xe145</i>
       </div>
@@ -90,24 +74,6 @@
 <script src="{% static 'notes/js/navbar.js' %}"></script>
 
 <script type="text/javascript">
-
-  /*   I N I T   */
-
-  const noteGroups = JSON.parse("{{ noteGroups|escapejs }}");
-
-  noteGroups.forEach(noteGroup => {
-    createNoteGroup(noteGroup.id, noteGroup.title);
-  });
-
-  currNoteGroup = drawerScroll.firstChild;
-
-  if (currNoteGroup == null) {
-    setNotePHDisplay(false);
-    setEmptyMessageVisibility(true);
-  } else {
-    setEmptyMessageVisibility(false);
-    selectGroup(currNoteGroup);
-  }
 
   /*   D R A W E R   C A L L B A C K S   */
 
@@ -164,6 +130,23 @@
     });
   });
 
+  /*   I N I T   */
+  const noteGroups = JSON.parse("{{ noteGroups|escapejs }}");
+
+  noteGroups.forEach(noteGroup => {
+    createNoteGroup(noteGroup.id, noteGroup.title);
+  });
+
+  /* From Drawer */
+
+  if (drawerScroll.firstChild == null) {
+    setNotePHDisplay(false);
+    // setEmptyMessageVisibility(true);
+  } else {
+    selectGroup(drawerScroll.firstChild);
+    // setEmptyMessageVisibility(false);
+  }
+
   /*   F U N C T I O N S   */
   // const emptyMessage = document.getElementById("empty-message");
 
@@ -171,8 +154,8 @@
     // emptyMessage.style.setProperty("display", state ? "inline-block" : "none");
   }
 
-  /*   D E B U G   P U R P O S E   */
   toggleDrawer();
+
 </script>
 
 </html>

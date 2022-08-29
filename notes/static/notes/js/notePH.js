@@ -31,6 +31,7 @@ function setNotePHVisibility(visible) {
   } else {
     titlePH.value = "";
     textareaPH.textContent = "";
+    dropdownPH.setAttribute("currColorId","0");
   }
 }
 

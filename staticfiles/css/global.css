@@ -1,0 +1,38 @@
+@font-face {
+  font-family: Roboto-Light;
+  src: url("../fonts/Roboto-Light.ttf");
+}
+
+* {
+  font-family: Roboto-Light;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body{
+  height: 100vh;
+  /* padding: 0.1px; */
+  /* background-color:white; */
+  /* background-color: blueviolet; */
+}
+
+a {
+  text-decoration-line: none;
+  font-weight: bold;
+}
+
+i{
+  user-select: none; /* supported by Chrome and Opera */
+ -webkit-user-select: none; /* Safari */
+ -moz-user-select: none; /* Firefox */
+ -khtml-user-select: none; /* Konqueror HTML */
+ -ms-user-select: none; /* Internet Explorer/Edge */
+ 
+ /* Removes the blue box on small devices */
+ -webkit-tap-highlight-color: transparent; 
+ -ms-tap-highlight-color: transparent;
+ -moz-tap-highlight-color: transparent;
+ -khtml-tap-highlight-color: transparent;
+}

@@ -5,35 +5,13 @@
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/notes.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'notes/css/menucolor.css' %}">
 
-<div id="notes-container" class="notes-container">
-  {% for note in firstNoteGroup.notes reversed %}
-  <div id="note-{{note.id}}" class="note">
-    <input class="input title" name="title" placeholder="Title" value="{{note.title}}" maxlength="100"
-      autocomplete="off" onkeyup="delayTrigger(event,'note-{{note.id}}')"></input>
-    <div class="text-box">
-      <div class="scroll-box">
-        <span class="input textarea" type="text" name="text" role="textbox" contenteditable placeholder="Text"
-          onkeyup="delayTrigger(event,'note-{{note.id}}')">{{note.text}}</span>
-      </div>
-    </div>
-    <div class="tool-box">
-      <i class="material-icons btn-close" role="button" onclick="onClickDeleteNote('note-{{note.id}}')">&#xe5cd</i>
-      <div class="menu-color">
-        <i class="material-icons btn-color" onclick="openMenu(event)" tabindex="-1" role="button">&#xe40a</i>
-        <div class="dropdown" currColorId='{{note.color_id}}' onfocusout="onContainerFocusOut(event)" tabindex="0"
-          onoptionselected="onColorSelected(colorId,'note-{{note.id}}')">
-        </div>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
+<div id="notes-container" class="notes-container"></div>
 
 <script src="{% static 'notes/js/noteElement.js' %}"></script>
 <script src="{% static 'notes/js/noteColor.js' %}"></script>
 <script src="{% static 'notes/js/menuColor.js' %}"></script>
 <script src="{% static 'notes/js/noteCallbacks.js' %}"></script>
-
+<script src="{% static 'notes/js/windowEvents.js' %}"></script>
 <script>
 
   /*   I N I T   */

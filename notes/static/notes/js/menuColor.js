@@ -1,7 +1,7 @@
 
 
 function createDropdownOptions(dropdown) {
-	// const colorId = dropdown.getAttribute("currColorId");
+	// const colorId = dropdown.getAttribute("currcolorid");
 	dropdown.style.setProperty("display", "none");
 
 	Object.keys(colors).forEach(colorId => {

@@ -6,7 +6,7 @@ const btnDrawer = document.getElementById("btn-drawer");
 const groupInputPH = document.querySelector("#group-ph>input");
 const btnGroupAddPH = document.querySelector("#group-ph > .btn-group-add");
 
-let currNoteGroup;
+let currNoteGroup = null;
 
 /*   I N I T I A L I Z E   */
 
@@ -45,21 +45,21 @@ function clearGroupPH() {
 }
 
 
-function selectGroup(noteGroup,triggerCallback=true) {
+function selectGroup(noteGroup, triggerCallback = true) {
   const groupInput = noteGroup.querySelector("input");
   noteGroup.style.setProperty("background-color", "rgb(200,200,200,0.2)");
   navTitle.innerHTML = groupInput.value;
-  
+
   if (noteGroup != currNoteGroup) {
     if (currNoteGroup !== null) {
-currNoteGroup.style.setProperty("background-color", null);
+      currNoteGroup.style.setProperty("background-color", null);
     }
     currNoteGroup = noteGroup;
     if (onSelectGroupCallback && triggerCallback) onSelectGroupCallback(noteGroup.id);
   }
 }
 
-function getGroupIndex(groupId){
+function getGroupIndex(groupId) {
   return [...drawerScroll.children].indexOf(document.getElementById(groupId));
 }
 
@@ -73,6 +73,9 @@ function setNoteGroupAttributes(noteGroup) {
   groupInput.setAttribute("onkeydown", "onKeyDownNoteGroup(event)");
   groupInput.setAttribute("onfocusout", "onFocusOutNoteGroup(event)");
   groupInput.style.setProperty("cursor", "pointer");
+
+  groupInput.setAttribute("onmousedown", "onGroupMouseDown(event)");
+  groupInput.setAttribute("onmouseup", "removeMouseDownTimer()");
 
   const btnDrop = noteGroup.querySelector(".btn-group-drop");
   btnDrop.setAttribute("onclick", "onClickOptionsNoteGroup(event)")
@@ -120,10 +123,27 @@ function onDblClickNoteGroup(event) {
   enableNoteGroupEdit(null, event.srcElement, true);
 }
 
+
+let mouseTimer;
+
+function onGroupMouseDown(event) {
+  mouseTimer = setTimeout(onHoldTapNoteGroup, 800, event.srcElement);
+}
+
+function removeMouseDownTimer() {
+  if (mouseTimer) clearTimeout(mouseTimer);
+}
+
+function onHoldTapNoteGroup(element) {
+  enableNoteGroupEdit(null, element, true);
+}
+
+
 function onKeyDownNoteGroup(event) {
   // Key => Enter
   if (event.keyCode == 13) enableNoteGroupEdit(null, event.srcElement, false);
 }
+
 
 /*  E V E N T S   :   I N P U T   G R O U P   O P T I O N S   */
 
@@ -148,30 +168,13 @@ function onClickDropMenuOption(event, noteGroupId) {
   const option = event.srcElement.innerHTML;
   switch (option) {
     case "Delete":
-      onDeleteGroupCallback(noteGroupId,getGroupIndex(noteGroupId));
+      onDeleteGroupCallback(noteGroupId, getGroupIndex(noteGroupId));
       break;
     case "Edit":
       enableNoteGroupEdit(noteGroupId, null, true);
   }
 }
 
-const drawerMediaQuery = window.matchMedia("(max-width: 900px)");
-drawerMediaQuery.addEventListener("change", setDrawerMediaQuery);
-setDrawerMediaQuery(drawerMediaQuery);
-
-// Avoid closing Drawer if space is enough
-function setDrawerMediaQuery(eventMQ) {
-  if (eventMQ.matches) {
-    window.onclick = function (event) {
-      /* Close Drawer On Clicking Outside */
-      if (isDrawerVisible() && !(event.target.closest(".drawer") || event.target.matches("#btn-drawer"))) {
-        toggleDrawer();
-      }
-    }
-  } else {
-    window.onclick = null;
-  }
-}
 
 function onClickAddGroup(event) {
   onAddGroup();
@@ -193,7 +196,7 @@ function createNoteGroup(id, title) {
   noteGroup.id = `group-${id}`;
   noteGroup.classList.add("note-group");
   noteGroup.innerHTML = `
-      <input value="${title}" type="text" readonly>
+      <input value="${title}" type="text" readonly maxLength="18">
       <i class="material-icons btn-group-save" style="display:none" onclick="enableNoteGroupEdit('${noteGroup.id}',null,false)">&#xe161</i>
       <i class="material-icons btn-group-drop">&#xe5d4</i>
     `;

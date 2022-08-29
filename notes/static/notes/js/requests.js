@@ -71,7 +71,7 @@ function getNoteData(noteId, storeId = true, elementCode = 0) {
     noteData["title"] = note.querySelector(".title").value
   }
   if (elementCode == 2 || elementCode == 0) {
-    noteData["text"] = note.querySelector(".textarea").textContent;
+    noteData["text"] = note.querySelector(".textarea").innerText;
   }
 
   if (elementCode == 3 || elementCode == 0) {

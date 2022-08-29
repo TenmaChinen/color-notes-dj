@@ -1,7 +1,7 @@
 :root {
   --title-size: 22px;
   --textarea-size: 20px;
-  --icon-size:22px;
+  --icon-size: 22px;
   --note-bg: rgb(165, 235, 118);
   --icon-bg: rgb(70, 188, 90);
   --sel-bg: rgb(122, 217, 141);
@@ -75,6 +75,10 @@
 
 /*   T I T L E   &   T E X T A R E A   */
 
+.note>.title::placeholder{
+  color: rgba(0, 0, 0, 0.2);
+}
+
 .note>.title,
 .note .textarea {
   box-sizing: border-box;
@@ -97,7 +101,7 @@
   font-size: var(--title-size);
   font-weight: bolder;
   width: 100%;
-  padding: 10px 0px 10px 15px;
+  padding: 10px 15px 10px 15px;
   /* box-sizing: border-box; */
 }
 
@@ -213,12 +217,14 @@
   :root {
     --title-size: 18px;
     --textarea-size: 20px;
-    --icon-size:18px;
+    --icon-size: 18px;
   }
+
   .note .tool-box {
     right: -35px;
   }
-  #btn-add-ph{
+
+  #btn-add-ph {
     font-size: 26px;
   }
 }
