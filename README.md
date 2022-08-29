@@ -14,7 +14,7 @@ Standard library modules used:
 ## Setup
 
 - Clone the repository in your local machine.
-<br />
+
 - Install the needed libraries from `requirements.txt` with:
 
       pip -r requirements.txt
