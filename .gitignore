@@ -8,6 +8,8 @@ designs
 __pycache__
 db.sqlite3
 media
+# For Python Anywhere Collectstatic
+static
 
 # Visual Studio Code # 
 .vscode/* 
