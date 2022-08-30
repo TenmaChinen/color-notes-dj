@@ -9,7 +9,7 @@ __pycache__
 db.sqlite3
 media
 # For Python Anywhere Collectstatic
-static
+/static/
 
 # Visual Studio Code # 
 .vscode/* 
